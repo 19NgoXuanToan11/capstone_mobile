@@ -122,4 +122,12 @@ export default StyleSheet.create({
     textAlign: "center",
     marginTop: 16,
   },
+  headerActions: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  headerButton: {
+    padding: 8,
+    marginLeft: 12,
+  },
 });

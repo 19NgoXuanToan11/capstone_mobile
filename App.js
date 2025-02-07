@@ -17,6 +17,7 @@ import HomeScreen from "./src/screens/HomeScreen";
 import ExchangeScreen from "./src/screens/ExchangeScreen";
 import NotificationListScreen from "./src/screens/notification/NotificationListScreen";
 import ChatListScreen from "./src/screens/chat/ChatListScreen";
+import ChatDetailScreen from "./src/screens/chat/ChatDetailScreen";
 
 // Profile Screens
 import ProfileScreen from "./src/screens/profile/ProfileScreen";
@@ -121,6 +122,23 @@ function TabBar({ state, descriptors, navigation }) {
   );
 }
 
+function ChatStackNavigator() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="ChatList"
+        component={ChatListScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="ChatDetail"
+        component={ChatDetailScreen}
+        options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
+  );
+}
+
 // Main Tab Navigator
 function MainTabs() {
   return (
@@ -160,7 +178,7 @@ function MainTabs() {
       />
       <Tab.Screen
         name="Chat"
-        component={ChatListScreen}
+        component={ChatStackNavigator}
         options={{
           tabBarIcon: ({ focused, color, size }) => (
             <Ionicons
