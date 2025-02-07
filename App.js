@@ -5,7 +5,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
-import { View, Platform, TouchableOpacity, Text } from "react-native";
+import { View, TouchableOpacity, Text } from "react-native";
 
 // Auth Screens
 import LoginScreen from "./src/screens/auth/LoginScreen";
@@ -28,11 +28,25 @@ import SettingsScreen from "./src/screens/profile/SettingsScreen";
 // Product Screens
 import ProductDetailScreen from "./src/screens/product/ProductDetailScreen";
 import AddProductScreen from "./src/screens/product/AddProductScreen";
+import EditProductScreen from "./src/screens/product/EditProductScreen";
+
+// Search Screens
 import SearchScreen from "./src/screens/search/SearchScreen";
+import SearchFilterScreen from "./src/screens/search/SearchFilterScreen";
+
+// Exchange Process Screens
+import ExchangeProposalScreen from "./src/screens/exchange/ExchangeProposalScreen";
+import ExchangeConfirmationScreen from "./src/screens/exchange/ExchangeConfirmationScreen";
+import ExchangeDetailScreen from "./src/screens/exchange/ExchangeDetailScreen";
+import ExchangeReviewScreen from "./src/screens/exchange/ExchangeReviewScreen";
 
 // Custom Components
 import CustomTabBar from "./src/components/navigation/CustomTabBar";
 import CustomDrawerContent from "./src/components/navigation/CustomDrawerContent";
+import Carousel from "./src/components/Carousel";
+import Categories from "./src/components/Categories";
+import FeaturedProducts from "./src/components/FeaturedProducts";
+import Header from "./src/components/Header";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -107,24 +121,67 @@ function TabBar({ state, descriptors, navigation }) {
   );
 }
 
-// Tab Navigator
-function TabNavigator() {
+// Main Tab Navigator
+function MainTabs() {
   return (
-    <Tab.Navigator tabBar={(props) => <CustomTabBar {...props} />}>
+    <Tab.Navigator
+      tabBar={(props) => <CustomTabBar {...props} />}
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: "#4A90E2",
+        tabBarInactiveTintColor: "#999999",
+      }}
+    >
       <Tab.Screen
-        name="HomeTab"
+        name="Trang chủ"
         component={HomeScreen}
         options={{
-          tabBarLabel: "Trang chủ",
-          headerShown: false,
+          tabBarIcon: ({ focused, color, size }) => (
+            <Ionicons
+              name={focused ? "home" : "home-outline"}
+              size={size}
+              color={color}
+            />
+          ),
         }}
       />
       <Tab.Screen
-        name="ExchangeTab"
+        name="Trao đổi"
         component={ExchangeScreen}
         options={{
-          tabBarLabel: "Trao đổi",
-          headerShown: false,
+          tabBarIcon: ({ focused, color, size }) => (
+            <Ionicons
+              name={focused ? "swap-horizontal" : "swap-horizontal-outline"}
+              size={size}
+              color={color}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Chat"
+        component={ChatListScreen}
+        options={{
+          tabBarIcon: ({ focused, color, size }) => (
+            <Ionicons
+              name={focused ? "chatbubble" : "chatbubble-outline"}
+              size={size}
+              color={color}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Thông báo"
+        component={NotificationListScreen}
+        options={{
+          tabBarIcon: ({ focused, color, size }) => (
+            <Ionicons
+              name={focused ? "notifications" : "notifications-outline"}
+              size={size}
+              color={color}
+            />
+          ),
         }}
       />
     </Tab.Navigator>
@@ -143,7 +200,7 @@ function DrawerNavigator() {
         },
       }}
     >
-      <Drawer.Screen name="MainTabs" component={TabNavigator} />
+      <Drawer.Screen name="MainTabs" component={MainTabs} />
       <Drawer.Screen name="Profile" component={ProfileScreen} />
       <Drawer.Screen name="MyListings" component={MyListingsScreen} />
       <Drawer.Screen name="MyExchanges" component={MyExchangesScreen} />
@@ -154,32 +211,74 @@ function DrawerNavigator() {
 }
 
 export default function App() {
+  // TODO: Add authentication state management
+  const isAuthenticated = true; // Thay đổi thành false để xem màn hình đăng nhập
+
   return (
     <SafeAreaProvider>
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-          {/* Auth Stack */}
-          <Stack.Group>
-            <Stack.Screen name="Login" component={LoginScreen} />
-            <Stack.Screen name="Register" component={RegisterScreen} />
-            <Stack.Screen
-              name="ForgotPassword"
-              component={ForgotPasswordScreen}
-            />
-          </Stack.Group>
+          {!isAuthenticated ? (
+            // Auth Stack
+            <>
+              <Stack.Screen name="Login" component={LoginScreen} />
+              <Stack.Screen name="Register" component={RegisterScreen} />
+              <Stack.Screen
+                name="ForgotPassword"
+                component={ForgotPasswordScreen}
+              />
+            </>
+          ) : (
+            // Main App Stack
+            <>
+              <Stack.Screen name="MainApp" component={DrawerNavigator} />
 
-          {/* Main App Stack */}
-          <Stack.Group>
-            <Stack.Screen name="Main" component={DrawerNavigator} />
-            <Stack.Screen
-              name="ProductDetail"
-              component={ProductDetailScreen}
-            />
-            <Stack.Screen name="AddProduct" component={AddProductScreen} />
-            <Stack.Screen name="Search" component={SearchScreen} />
-            <Stack.Screen name="Chat" component={ChatListScreen} />
-            <Stack.Screen name="EditProfile" component={EditProfileScreen} />
-          </Stack.Group>
+              {/* Product Stack */}
+              <Stack.Screen
+                name="ProductDetail"
+                component={ProductDetailScreen}
+              />
+              <Stack.Screen name="AddProduct" component={AddProductScreen} />
+              <Stack.Screen name="EditProduct" component={EditProductScreen} />
+
+              {/* Search Stack */}
+              <Stack.Screen name="Search" component={SearchScreen} />
+              <Stack.Screen
+                name="SearchFilter"
+                component={SearchFilterScreen}
+              />
+
+              {/* Exchange Stack */}
+              <Stack.Screen
+                name="ExchangeProposal"
+                component={ExchangeProposalScreen}
+              />
+              <Stack.Screen
+                name="ExchangeConfirmation"
+                component={ExchangeConfirmationScreen}
+              />
+              <Stack.Screen
+                name="ExchangeDetail"
+                component={ExchangeDetailScreen}
+              />
+              <Stack.Screen
+                name="ExchangeReview"
+                component={ExchangeReviewScreen}
+              />
+
+              {/* Notification Stack */}
+              <Stack.Screen
+                name="NotificationList"
+                component={NotificationListScreen}
+              />
+
+              {/* Profile Stack */}
+              <Stack.Screen name="EditProfile" component={EditProfileScreen} />
+              <Stack.Screen name="MyListings" component={MyListingsScreen} />
+              <Stack.Screen name="MyExchanges" component={MyExchangesScreen} />
+              <Stack.Screen name="Settings" component={SettingsScreen} />
+            </>
+          )}
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>
