@@ -43,14 +43,14 @@ export default function CustomTabBar({ state, descriptors, navigation }) {
         };
 
         let iconName;
-        if (route.name === "Home") {
+        if (route.name === "Trang chủ") {
           iconName = isFocused ? "home" : "home-outline";
-        } else if (route.name === "Search") {
-          iconName = isFocused ? "search" : "search-outline";
+        } else if (route.name === "Trao đổi") {
+          iconName = isFocused ? "swap-horizontal" : "swap-horizontal-outline";
         } else if (route.name === "Chat") {
           iconName = isFocused ? "chatbubble" : "chatbubble-outline";
-        } else if (route.name === "Profile") {
-          iconName = isFocused ? "person" : "person-outline";
+        } else if (route.name === "Thông báo") {
+          iconName = isFocused ? "notifications" : "notifications-outline";
         }
 
         return (
