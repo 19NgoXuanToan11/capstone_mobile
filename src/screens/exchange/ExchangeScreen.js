@@ -1,8 +1,9 @@
 import React from "react";
-import { View, ScrollView, Text, TouchableOpacity, Image } from "react-native";
+import { View, ScrollView, Text, TouchableOpacity, Image, TextInput } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
-import styles from "../styles/ExchangeStyles";
+import styles from "../../styles/ExchangeStyles";
+import { LinearGradient } from "expo-linear-gradient";
 
 export default function ExchangeScreen() {
   const exchangeItems = [
@@ -40,27 +41,55 @@ export default function ExchangeScreen() {
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Trao đổi thiết bị</Text>
         <TouchableOpacity style={styles.postButton}>
-          <Ionicons name="add-circle-outline" size={24} color="#fff" />
-          <Text style={styles.postButtonText}>Đăng tin</Text>
+          <LinearGradient
+            colors={["#1976D2", "#1565C0"]}
+            style={styles.gradientButton}
+          >
+            <Ionicons name="add-circle-outline" size={24} color="#fff" />
+            <Text style={styles.postButtonText}>Đăng tin</Text>
+          </LinearGradient>
         </TouchableOpacity>
+      </View>
+
+      {/* Search Bar */}
+      <View style={styles.searchContainer}>
+        <View style={styles.searchBar}>
+          <Ionicons name="search-outline" size={20} color="#666" />
+          <TextInput
+            placeholder="Tìm kiếm thiết bị..."
+            style={styles.searchInput}
+            placeholderTextColor="#999"
+          />
+        </View>
       </View>
 
       {/* Content */}
       <ScrollView style={styles.content}>
         {exchangeItems.map((item) => (
-          <TouchableOpacity key={item.id} style={styles.exchangeCard}>
-            <Image source={{ uri: item.image }} style={styles.itemImage} />
+          <TouchableOpacity 
+            key={item.id} 
+            style={styles.exchangeCard}
+            activeOpacity={0.7}
+          >
+            <View style={styles.imageContainer}>
+              <Image source={{ uri: item.image }} style={styles.itemImage} />
+              <View style={styles.conditionBadge}>
+                <Text style={styles.conditionText}>{item.condition}</Text>
+              </View>
+            </View>
+            
             <View style={styles.itemInfo}>
-              <Text style={styles.itemTitle}>{item.title}</Text>
-              <Text style={styles.itemCondition}>{item.condition}</Text>
+              <Text style={styles.itemTitle} numberOfLines={1}>{item.title}</Text>
 
               <View style={styles.exchangeFor}>
                 <Text style={styles.exchangeForTitle}>Muốn trao đổi với:</Text>
-                {item.wantToExchange.map((want, index) => (
-                  <Text key={index} style={styles.exchangeForItem}>
-                    • {want}
-                  </Text>
-                ))}
+                <View style={styles.wantedItemsContainer}>
+                  {item.wantToExchange.map((want, index) => (
+                    <View key={index} style={styles.wantedItem}>
+                      <Text style={styles.wantedItemText}>{want}</Text>
+                    </View>
+                  ))}
+                </View>
               </View>
 
               <View style={styles.itemFooter}>

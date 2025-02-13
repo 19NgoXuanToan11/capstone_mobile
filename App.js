@@ -14,7 +14,7 @@ import ForgotPasswordScreen from "./src/screens/auth/ForgotPasswordScreen";
 
 // Main Screens
 import HomeScreen from "./src/screens/HomeScreen";
-import ExchangeScreen from "./src/screens/ExchangeScreen";
+import ExchangeScreen from "./src/screens/exchange/ExchangeScreen";
 import NotificationListScreen from "./src/screens/notification/NotificationListScreen";
 import ChatListScreen from "./src/screens/chat/ChatListScreen";
 import ChatDetailScreen from "./src/screens/chat/ChatDetailScreen";
