@@ -23,7 +23,6 @@ export default function ProductDetailScreen({ navigation, route }) {
   const [selectedImage, setSelectedImage] = useState(null);
   const [showImageModal, setShowImageModal] = useState(false);
 
-  // Mock data - thay thế bằng dữ liệu thực từ API
   const product = {
     id: "1",
     title: "iPhone 12 Pro Max",
@@ -63,7 +62,6 @@ export default function ProductDetailScreen({ navigation, route }) {
       image: "https://picsum.photos/200/200?random=5",
       condition: "Mới - 100%",
     },
-    // Thêm sản phẩm khác...
   ];
 
   const renderCarouselItem = ({ item }) => (
@@ -128,7 +126,6 @@ export default function ProductDetailScreen({ navigation, route }) {
       </View>
 
       <ScrollView showsVerticalScrollIndicator={false}>
-        {/* Image Carousel */}
         <View style={styles.carouselContainer}>
           <Carousel
             data={product.images}
@@ -141,7 +138,6 @@ export default function ProductDetailScreen({ navigation, route }) {
           />
         </View>
 
-        {/* Product Info */}
         <View style={styles.productInfo}>
           <Text style={styles.productTitle}>{product.title}</Text>
           <Text style={styles.condition}>{product.condition}</Text>
@@ -180,7 +176,6 @@ export default function ProductDetailScreen({ navigation, route }) {
           </View>
         </View>
 
-        {/* Owner Info */}
         <View style={styles.ownerCard}>
           <View style={styles.ownerInfo}>
             <Image
@@ -219,7 +214,6 @@ export default function ProductDetailScreen({ navigation, route }) {
         </View>
       </ScrollView>
 
-      {/* Bottom Action Bar */}
       <View style={styles.bottomBar}>
         <TouchableOpacity
           style={styles.messageButton}
@@ -238,7 +232,6 @@ export default function ProductDetailScreen({ navigation, route }) {
         </TouchableOpacity>
       </View>
 
-      {/* Exchange Modal */}
       <Modal
         visible={showExchangeModal}
         animationType="slide"
@@ -283,7 +276,6 @@ export default function ProductDetailScreen({ navigation, route }) {
         </View>
       </Modal>
 
-      {/* Image View Modal */}
       <Modal visible={showImageModal} transparent={true} animationType="fade">
         <View style={styles.imageModalContainer}>
           <TouchableOpacity

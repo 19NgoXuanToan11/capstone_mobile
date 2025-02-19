@@ -1,9 +1,9 @@
 import { View, Text, TouchableOpacity, Image, Dimensions } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import styles from "../styles/HomeStyles";
+import styles from "../../../styles/HomeStyles";
 
 const { width } = Dimensions.get("window");
-const CARD_WIDTH = (width - 40) / 2; // 40 is total horizontal padding
+const CARD_WIDTH = (width - 40) / 2;
 
 export default function FeaturedProducts() {
   const products = [

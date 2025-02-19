@@ -15,7 +15,6 @@ export default function ExchangeProposalScreen({ navigation, route }) {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Mock data - thay thế bằng dữ liệu thực từ API
   const targetProduct = {
     id: "1",
     title: "iPhone 13 Pro Max",
@@ -52,8 +51,7 @@ export default function ExchangeProposalScreen({ navigation, route }) {
 
     setIsLoading(true);
     try {
-      // TODO: Call API to submit exchange proposal
-      await new Promise((resolve) => setTimeout(resolve, 1000)); // Mock API call
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
       Alert.alert("Thành công", "Đề xuất trao đổi đã được gửi", [
         {
@@ -85,7 +83,6 @@ export default function ExchangeProposalScreen({ navigation, route }) {
       </View>
 
       <ScrollView style={styles.content}>
-        {/* Target Product */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Sản phẩm muốn trao đổi</Text>
           <View style={styles.productCard}>
@@ -116,8 +113,7 @@ export default function ExchangeProposalScreen({ navigation, route }) {
             ))}
           </View>
         </View>
-
-        {/* My Products */}
+                
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Chọn sản phẩm của bạn</Text>
           {myProducts.map((product) => (

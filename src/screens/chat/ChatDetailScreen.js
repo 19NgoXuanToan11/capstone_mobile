@@ -20,7 +20,6 @@ export default function ChatDetailScreen({ navigation, route }) {
   const [inputText, setInputText] = useState("");
   const flatListRef = useRef(null);
 
-  // Mock data - thay thế bằng API call thực tế
   useEffect(() => {
     setMessages([
       {
@@ -117,7 +116,6 @@ export default function ChatDetailScreen({ navigation, route }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* Header */}
       <LinearGradient colors={["#4A90E2", "#357ABD"]} style={styles.header}>
         <TouchableOpacity
           style={styles.backButton}

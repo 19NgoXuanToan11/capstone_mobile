@@ -19,7 +19,6 @@ export default function SearchScreen({ navigation }) {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
 
-  // Mock data - thay thế bằng dữ liệu thực từ API
   const searchHistory = [
     "iPhone 13",
     "MacBook Pro",
@@ -43,7 +42,6 @@ export default function SearchScreen({ navigation }) {
       location: "Quận 1, TP.HCM",
       wantToExchange: ["iPhone 12 Pro Max", "iPhone 12 Pro"],
     },
-    // Thêm kết quả tìm kiếm khác...
   ];
 
   const handleSearch = (text) => {
@@ -64,7 +62,6 @@ export default function SearchScreen({ navigation }) {
       setShowSuggestions(false);
       setIsSearching(true);
       Keyboard.dismiss();
-      // TODO: Call API to get search results
     }
   };
 
@@ -74,7 +71,6 @@ export default function SearchScreen({ navigation }) {
   };
 
   const handleClearHistory = () => {
-    // TODO: Implement clear history logic
     Alert.alert("Xóa lịch sử", "Bạn có chắc chắn muốn xóa lịch sử tìm kiếm?", [
       {
         text: "Hủy",
@@ -84,7 +80,6 @@ export default function SearchScreen({ navigation }) {
         text: "Xóa",
         style: "destructive",
         onPress: () => {
-          // Clear history logic
         },
       },
     ]);
@@ -168,7 +163,6 @@ export default function SearchScreen({ navigation }) {
                 <TouchableOpacity
                   style={styles.removeHistoryItem}
                   onPress={() => {
-                    /* Remove single history item */
                   }}
                 >
                   <Ionicons name="close" size={16} color="#999" />
