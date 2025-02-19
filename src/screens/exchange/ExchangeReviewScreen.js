@@ -30,7 +30,6 @@ export default function ExchangeReviewScreen({ navigation, route }) {
 
     setIsLoading(true);
     try {
-      // TODO: Call API to submit review
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
       Alert.alert("Thành công", "Cảm ơn bạn đã đánh giá", [
@@ -48,7 +47,6 @@ export default function ExchangeReviewScreen({ navigation, route }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* Header */}
       <LinearGradient
         colors={["#4A90E2", "#357ABD"]}
         start={{ x: 0, y: 0 }}
@@ -67,7 +65,6 @@ export default function ExchangeReviewScreen({ navigation, route }) {
 
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
         <View style={styles.reviewSection}>
-          {/* Exchange Summary */}
           <View style={styles.exchangeSummary}>
             <Image
               source={{ uri: "https://picsum.photos/200" }}
@@ -81,7 +78,6 @@ export default function ExchangeReviewScreen({ navigation, route }) {
             </View>
           </View>
 
-          {/* Rating Stars */}
           <View style={styles.ratingContainer}>
             <Text style={styles.ratingTitle}>
               Bạn hài lòng với trải nghiệm trao đổi này chứ?
@@ -114,7 +110,6 @@ export default function ExchangeReviewScreen({ navigation, route }) {
             </Text>
           </View>
 
-          {/* Review Input */}
           <View style={styles.reviewInputContainer}>
             <Text style={styles.reviewLabel}>
               Chia sẻ chi tiết trải nghiệm của bạn
@@ -135,7 +130,6 @@ export default function ExchangeReviewScreen({ navigation, route }) {
         </View>
       </ScrollView>
 
-      {/* Submit Button */}
       <View style={styles.footer}>
         <TouchableOpacity
           style={[

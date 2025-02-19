@@ -14,7 +14,7 @@ import styles from "../../styles/ProfileStyles";
 
 export default function MyListingsScreen({ navigation }) {
   const [refreshing, setRefreshing] = useState(false);
-  const [activeTab, setActiveTab] = useState("active"); // 'active' or 'inactive'
+  const [activeTab, setActiveTab] = useState("active");
 
   const listings = {
     active: [
@@ -58,7 +58,6 @@ export default function MyListingsScreen({ navigation }) {
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
-    // TODO: Implement refresh logic
     setTimeout(() => {
       setRefreshing(false);
     }, 2000);
@@ -74,7 +73,6 @@ export default function MyListingsScreen({ navigation }) {
         text: "Xóa",
         style: "destructive",
         onPress: () => {
-          // TODO: Implement delete logic
           console.log("Delete item:", itemId);
         },
       },
@@ -141,7 +139,6 @@ export default function MyListingsScreen({ navigation }) {
                 : styles.activateButton,
             ]}
             onPress={() => {
-              // TODO: Implement status toggle logic
               console.log("Toggle status for:", item.id);
             }}
           >
@@ -172,7 +169,6 @@ export default function MyListingsScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity
           style={styles.backButton}
@@ -188,8 +184,7 @@ export default function MyListingsScreen({ navigation }) {
           <Ionicons name="add" size={24} color="#4A90E2" />
         </TouchableOpacity>
       </View>
-
-      {/* Tab Buttons */}
+    
       <View style={styles.tabContainer}>
         <TouchableOpacity
           style={[

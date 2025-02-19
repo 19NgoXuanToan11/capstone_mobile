@@ -25,10 +25,8 @@ export default function EditProductScreen({ navigation, route }) {
     location: "",
   });
 
-  // Mock data - thay thế bằng API call thực tế
   useEffect(() => {
     const productId = route.params?.productId;
-    // TODO: Fetch product data from API
     const mockProduct = {
       id: productId,
       title: "iPhone 12 Pro Max",
@@ -151,8 +149,7 @@ export default function EditProductScreen({ navigation, route }) {
 
     setIsLoading(true);
     try {
-      // TODO: Implement API call to update product
-      await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate API call
+      await new Promise((resolve) => setTimeout(resolve, 2000));
       Alert.alert("Thành công", "Sản phẩm đã được cập nhật thành công", [
         {
           text: "OK",
@@ -181,8 +178,7 @@ export default function EditProductScreen({ navigation, route }) {
           onPress: async () => {
             setIsLoading(true);
             try {
-              // TODO: Implement API call to delete product
-              await new Promise((resolve) => setTimeout(resolve, 1500)); // Simulate API call
+              await new Promise((resolve) => setTimeout(resolve, 1500));
               navigation.goBack();
             } catch (error) {
               Alert.alert("Lỗi", "Không thể xóa sản phẩm. Vui lòng thử lại.");
@@ -197,7 +193,6 @@ export default function EditProductScreen({ navigation, route }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity
           style={styles.headerButton}
@@ -220,7 +215,6 @@ export default function EditProductScreen({ navigation, route }) {
       </View>
 
       <ScrollView style={styles.formContainer}>
-        {/* Images Section */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Hình ảnh sản phẩm</Text>
           <Text style={styles.sectionSubtitle}>Tối đa 5 ảnh</Text>
@@ -252,7 +246,6 @@ export default function EditProductScreen({ navigation, route }) {
           </ScrollView>
         </View>
 
-        {/* Basic Info Section */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Thông tin cơ bản</Text>
 
@@ -295,7 +288,6 @@ export default function EditProductScreen({ navigation, route }) {
           </View>
         </View>
 
-        {/* Exchange Wishes Section */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Muốn trao đổi với</Text>
           {formData.wantToExchange.map((item, index) => (
@@ -333,7 +325,6 @@ export default function EditProductScreen({ navigation, route }) {
           )}
         </View>
 
-        {/* Location Section */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Địa điểm</Text>
           <View style={styles.inputGroup}>
@@ -347,8 +338,7 @@ export default function EditProductScreen({ navigation, route }) {
             />
           </View>
         </View>
-
-        {/* Delete Button */}
+              
         <TouchableOpacity style={styles.deleteButton} onPress={handleDelete}>
           <Ionicons name="trash-outline" size={20} color="#FF3B30" />
           <Text style={styles.deleteButtonText}>Xóa sản phẩm</Text>

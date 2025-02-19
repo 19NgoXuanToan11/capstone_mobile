@@ -1,10 +1,10 @@
 import { View, ScrollView, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Header from "../components/Header";
-import Carousel from "../components/Carousel";
-import Categories from "../components/Categories";
-import FeaturedProducts from "../components/FeaturedProducts";
-import styles from "../styles/HomeStyles";
+import Header from "../home/components/Header";
+import Carousel from "../home/components/Carousel";
+import Categories from "../home/components/Categories";
+import FeaturedProducts from "../home/components/FeaturedProducts";
+import styles from "../../styles/HomeStyles";
 
 export default function HomeScreen() {
   return (

@@ -14,7 +14,6 @@ import styles from "../../styles/ChatStyles";
 export default function ChatListScreen({ navigation }) {
   const [refreshing, setRefreshing] = useState(false);
 
-  // Mock data - thay thế bằng dữ liệu thực từ API
   const chats = [
     {
       id: "1",
@@ -56,7 +55,6 @@ export default function ChatListScreen({ navigation }) {
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
-    // TODO: Implement refresh logic
     setTimeout(() => {
       setRefreshing(false);
     }, 2000);

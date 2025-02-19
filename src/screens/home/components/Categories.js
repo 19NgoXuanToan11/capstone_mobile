@@ -1,5 +1,5 @@
 import { View, Text, ScrollView, TouchableOpacity, Image } from "react-native";
-import styles from "../styles/HomeStyles";
+import styles from "../../../styles/HomeStyles";
 
 export default function Categories() {
   const categories = [

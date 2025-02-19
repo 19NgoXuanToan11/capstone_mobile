@@ -2,7 +2,7 @@ import { View, Text, TextInput, TouchableOpacity, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
-import styles from "../styles/HomeStyles";
+import styles from "../../../styles/HomeStyles";
 
 export default function Header() {
   return (
@@ -11,12 +11,11 @@ export default function Header() {
       style={styles.headerGradient}
     >
       <SafeAreaView style={styles.header}>
-        {/* Top Header */}
         <View style={styles.headerTop}>
           <View style={styles.logoContainer}>
             <Image
               style={styles.logoImage}
-              source={require("../../assets/logo.png")}
+              source={require("../../../../assets/logo.png")}
             />
             <Text style={styles.logoText}>ReTech</Text>
           </View>
@@ -37,7 +36,6 @@ export default function Header() {
           </View>
         </View>
 
-        {/* Search Bar */}
         <View style={styles.searchContainer}>
           <View style={styles.searchBar}>
             <Ionicons name="search-outline" size={20} color="#666" />
@@ -52,7 +50,6 @@ export default function Header() {
           </View>
         </View>
 
-        {/* Categories Quick Access */}
         <View style={styles.quickCategories}>
           <TouchableOpacity style={styles.quickCategoryItem}>
             <Ionicons name="flash-outline" size={16} color="#FFF" />

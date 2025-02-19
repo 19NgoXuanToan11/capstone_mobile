@@ -20,7 +20,6 @@ export default function ExchangeConfirmationScreen({ navigation, route }) {
     inspection: false,
   });
 
-  // Mock data - thay thế bằng dữ liệu thực từ API
   const exchange = {
     id: "1",
     status: "pending",
@@ -56,8 +55,7 @@ export default function ExchangeConfirmationScreen({ navigation, route }) {
 
     setIsLoading(true);
     try {
-      // TODO: Call API to confirm exchange
-      await new Promise((resolve) => setTimeout(resolve, 1000)); // Mock API call
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
       navigation.navigate("ExchangeDetail", {
         exchangeId: exchange.id,
@@ -85,7 +83,6 @@ export default function ExchangeConfirmationScreen({ navigation, route }) {
           onPress: async () => {
             setIsLoading(true);
             try {
-              // TODO: Call API to decline exchange
               await new Promise((resolve) => setTimeout(resolve, 1000));
               navigation.goBack();
             } catch (error) {
@@ -171,7 +168,6 @@ export default function ExchangeConfirmationScreen({ navigation, route }) {
           </View>
         </View>
 
-        {/* Agreement Section */}
         <View style={styles.agreementSection}>
           <Text style={styles.sectionTitle}>Điều khoản trao đổi</Text>
 

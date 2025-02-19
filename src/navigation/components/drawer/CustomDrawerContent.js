@@ -16,7 +16,6 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 
 export default function CustomDrawerContent(props) {
-  // Mock user data - thay thế bằng dữ liệu thực từ context hoặc redux
   const user = {
     name: "Nguyễn Văn A",
     email: "nguyenvana@gmail.com",
@@ -25,7 +24,6 @@ export default function CustomDrawerContent(props) {
   };
 
   const handleLogout = () => {
-    // TODO: Implement logout logic
     props.navigation.navigate("Login");
   };
 
@@ -35,7 +33,6 @@ export default function CustomDrawerContent(props) {
 
   return (
     <DrawerContentScrollView {...props}>
-      {/* User Profile Section */}
       <View style={styles.userSection}>
         <View style={styles.userInfo}>
           <Image source={{ uri: user.avatar }} style={styles.avatar} />
@@ -57,7 +54,6 @@ export default function CustomDrawerContent(props) {
         </TouchableOpacity>
       </View>
 
-      {/* Stats Section */}
       <View style={styles.statsContainer}>
         <TouchableOpacity
           style={styles.statItem}
@@ -84,7 +80,6 @@ export default function CustomDrawerContent(props) {
         </TouchableOpacity>
       </View>
 
-      {/* Navigation Items */}
       <View style={styles.navigationSection}>
         <DrawerItem
           label="Trang chủ"
@@ -127,7 +122,6 @@ export default function CustomDrawerContent(props) {
         />
       </View>
 
-      {/* Footer Section */}
       <View style={styles.footerSection}>
         <DrawerItem
           label="Hỗ trợ"

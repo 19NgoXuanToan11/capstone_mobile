@@ -21,12 +21,10 @@ export default function LoginScreen({ navigation }) {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleLogin = () => {
-    // TODO: Implement login logic
     if (!email || !password) {
       Alert.alert("Lỗi", "Vui lòng nhập đầy đủ thông tin");
       return;
     }
-    // Temporary navigation
     navigation.replace("Main");
   };
 
@@ -37,7 +35,6 @@ export default function LoginScreen({ navigation }) {
         style={styles.container}
       >
         <ScrollView contentContainerStyle={styles.scrollContent}>
-          {/* Logo and Welcome Text */}
           <View style={styles.header}>
             <Image source={logo} style={styles.logo} />
             <Text style={styles.welcomeText}>Chào mừng trở lại!</Text>
@@ -46,7 +43,6 @@ export default function LoginScreen({ navigation }) {
             </Text>
           </View>
 
-          {/* Login Form */}
           <View style={styles.form}>
             <View style={styles.inputContainer}>
               <Ionicons name="mail-outline" size={20} color="#666" />
@@ -92,7 +88,6 @@ export default function LoginScreen({ navigation }) {
               <Text style={styles.loginButtonText}>Đăng nhập</Text>
             </TouchableOpacity>
 
-            {/* Social Login */}
             <View style={styles.socialLogin}>
               <Text style={styles.orText}>Hoặc đăng nhập với</Text>
               <View style={styles.socialButtons}>
@@ -105,7 +100,6 @@ export default function LoginScreen({ navigation }) {
               </View>
             </View>
 
-            {/* Register Link */}
             <View style={styles.registerContainer}>
               <Text style={styles.noAccountText}>Chưa có tài khoản? </Text>
               <TouchableOpacity onPress={() => navigation.navigate("Register")}>
