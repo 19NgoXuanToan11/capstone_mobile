@@ -126,7 +126,6 @@ export default function AddProductScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity
           style={styles.headerButton}
@@ -149,7 +148,6 @@ export default function AddProductScreen({ navigation }) {
       </View>
 
       <ScrollView style={styles.formContainer}>
-        {/* Images Section */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Hình ảnh sản phẩm</Text>
           <Text style={styles.sectionSubtitle}>Tối đa 5 ảnh</Text>
@@ -181,7 +179,6 @@ export default function AddProductScreen({ navigation }) {
           </ScrollView>
         </View>
 
-        {/* Basic Info Section */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Thông tin cơ bản</Text>
 
@@ -224,7 +221,6 @@ export default function AddProductScreen({ navigation }) {
           </View>
         </View>
 
-        {/* Exchange Wishes Section */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Muốn trao đổi với</Text>
           {formData.wantToExchange.map((item, index) => (
@@ -262,7 +258,6 @@ export default function AddProductScreen({ navigation }) {
           )}
         </View>
 
-        {/* Location Section */}
         <View style={[styles.section, styles.lastSection]}>
           <Text style={styles.sectionTitle}>Địa điểm</Text>
           <View style={styles.inputGroup}>

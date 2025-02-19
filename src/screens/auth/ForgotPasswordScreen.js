@@ -26,8 +26,7 @@ export default function ForgotPasswordScreen({ navigation }) {
 
     setIsLoading(true);
     try {
-      // TODO: Implement password reset logic
-      await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate API call
+      await new Promise((resolve) => setTimeout(resolve, 2000));
       setIsSent(true);
     } catch (error) {
       Alert.alert(
@@ -45,7 +44,6 @@ export default function ForgotPasswordScreen({ navigation }) {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={styles.container}
       >
-        {/* Header with back button */}
         <TouchableOpacity
           style={styles.backButton}
           onPress={() => navigation.goBack()}
@@ -54,7 +52,6 @@ export default function ForgotPasswordScreen({ navigation }) {
         </TouchableOpacity>
 
         <View style={styles.forgotContainer}>
-          {/* Header */}
           <View style={styles.header}>
             <Ionicons
               name="lock-open-outline"
@@ -69,7 +66,6 @@ export default function ForgotPasswordScreen({ navigation }) {
           </View>
 
           {!isSent ? (
-            // Reset Password Form
             <View style={styles.form}>
               <View style={styles.inputContainer}>
                 <Ionicons name="mail-outline" size={20} color="#666" />
@@ -100,7 +96,6 @@ export default function ForgotPasswordScreen({ navigation }) {
               </TouchableOpacity>
             </View>
           ) : (
-            // Success Message
             <View style={styles.successContainer}>
               <Ionicons
                 name="checkmark-circle-outline"
@@ -122,7 +117,6 @@ export default function ForgotPasswordScreen({ navigation }) {
             </View>
           )}
 
-          {/* Help Section */}
           <View style={styles.helpContainer}>
             <Text style={styles.helpText}>Bạn cần hỗ trợ?</Text>
             <TouchableOpacity>

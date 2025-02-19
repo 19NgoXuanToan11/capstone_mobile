@@ -14,7 +14,6 @@ import styles from "../../styles/NotificationStyles";
 export default function NotificationListScreen({ navigation }) {
   const [refreshing, setRefreshing] = useState(false);
 
-  // Mock data - thay thế bằng dữ liệu thực từ API
   const notifications = [
     {
       id: "1",
@@ -56,17 +55,12 @@ export default function NotificationListScreen({ navigation }) {
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
-    // TODO: Fetch new notifications
     setTimeout(() => {
       setRefreshing(false);
     }, 2000);
   }, []);
 
   const handleNotificationPress = (notification) => {
-    // Đánh dấu đã đọc
-    // TODO: Mark as read API call
-
-    // Điều hướng dựa trên loại thông báo
     switch (notification.type) {
       case "exchange_request":
         navigation.navigate("ExchangeDetail", {

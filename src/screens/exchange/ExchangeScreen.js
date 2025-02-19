@@ -37,7 +37,6 @@ export default function ExchangeScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* Header */}
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Trao đổi thiết bị</Text>
         <TouchableOpacity style={styles.postButton}>
@@ -51,7 +50,6 @@ export default function ExchangeScreen() {
         </TouchableOpacity>
       </View>
 
-      {/* Search Bar */}
       <View style={styles.searchContainer}>
         <View style={styles.searchBar}>
           <Ionicons name="search-outline" size={20} color="#666" />
@@ -63,7 +61,6 @@ export default function ExchangeScreen() {
         </View>
       </View>
 
-      {/* Content */}
       <ScrollView style={styles.content}>
         {exchangeItems.map((item) => (
           <TouchableOpacity 

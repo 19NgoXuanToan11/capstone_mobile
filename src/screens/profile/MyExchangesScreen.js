@@ -13,7 +13,7 @@ import styles from "../../styles/ProfileStyles";
 
 export default function MyExchangesScreen({ navigation }) {
   const [refreshing, setRefreshing] = useState(false);
-  const [activeTab, setActiveTab] = useState("ongoing"); // 'ongoing', 'completed', 'cancelled'
+  const [activeTab, setActiveTab] = useState("ongoing");
 
   const exchanges = {
     ongoing: [
@@ -114,7 +114,6 @@ export default function MyExchangesScreen({ navigation }) {
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
-    // TODO: Implement refresh logic
     setTimeout(() => {
       setRefreshing(false);
     }, 2000);
@@ -122,7 +121,6 @@ export default function MyExchangesScreen({ navigation }) {
 
   const renderExchangeItem = ({ item }) => (
     <View style={styles.exchangeCard}>
-      {/* Exchange Header */}
       <View style={styles.exchangeHeader}>
         <View style={styles.partnerInfo}>
           <Image
@@ -151,7 +149,6 @@ export default function MyExchangesScreen({ navigation }) {
         </View>
       </View>
 
-      {/* Exchange Items */}
       <View style={styles.exchangeItems}>
         <View style={styles.itemBox}>
           <Image source={{ uri: item.myItem.image }} style={styles.itemImage} />
@@ -181,7 +178,6 @@ export default function MyExchangesScreen({ navigation }) {
         </View>
       </View>
 
-      {/* Exchange Footer */}
       <View style={styles.exchangeFooter}>
         <Text style={styles.exchangeDate}>
           {new Date(item.date).toLocaleDateString("vi-VN")}
@@ -230,7 +226,6 @@ export default function MyExchangesScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity
           style={styles.backButton}
@@ -242,7 +237,6 @@ export default function MyExchangesScreen({ navigation }) {
         <View style={styles.headerRight} />
       </View>
 
-      {/* Tab Buttons */}
       <View style={styles.exchangeTabContainer}>
         <TouchableOpacity
           style={[

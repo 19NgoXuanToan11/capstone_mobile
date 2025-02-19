@@ -63,7 +63,6 @@ export default function ProfileScreen({ navigation }) {
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
-    // TODO: Implement refresh logic
     setTimeout(() => {
       setRefreshing(false);
     }, 2000);
@@ -76,7 +75,6 @@ export default function ProfileScreen({ navigation }) {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       >
-        {/* Header */}
         <View style={styles.header}>
           <TouchableOpacity
             style={styles.menuButton}
@@ -90,7 +88,6 @@ export default function ProfileScreen({ navigation }) {
           </TouchableOpacity>
         </View>
 
-        {/* Profile Card */}
         <View style={styles.profileCard}>
           <View style={styles.avatarContainer}>
             <Image source={{ uri: userInfo.avatar }} style={styles.avatar} />
@@ -121,7 +118,6 @@ export default function ProfileScreen({ navigation }) {
           </TouchableOpacity>
         </View>
 
-        {/* Stats */}
         <View style={styles.statsContainer}>
           <View style={styles.statItem}>
             <Text style={styles.statNumber}>{userInfo.totalExchanges}</Text>
@@ -139,7 +135,6 @@ export default function ProfileScreen({ navigation }) {
           </View>
         </View>
 
-        {/* Menu Items */}
         <View style={styles.menuContainer}>
           {menuItems.map((item, index) => (
             <TouchableOpacity
@@ -163,11 +158,9 @@ export default function ProfileScreen({ navigation }) {
           ))}
         </View>
 
-        {/* Logout Button */}
         <TouchableOpacity
           style={styles.logoutButton}
           onPress={() => {
-            // TODO: Implement logout logic
             navigation.replace("Login");
           }}
         >

@@ -20,15 +20,13 @@ export default function ExchangeDetailScreen({ navigation, route }) {
   const [exchange, setExchange] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Mock data - thay thế bằng API call thực tế
   useEffect(() => {
     const fetchExchangeDetails = async () => {
       try {
-        // TODO: Call API to get exchange details
         await new Promise((resolve) => setTimeout(resolve, 1000));
         setExchange({
           id: "1",
-          status: "in_progress", // pending, confirmed, in_progress, completed, cancelled
+          status: "in_progress",
           createdAt: "2024-02-15T09:30:00Z",
           proposedProduct: {
             id: "1",

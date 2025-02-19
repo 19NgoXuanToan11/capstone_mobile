@@ -129,7 +129,6 @@ export default function SettingsScreen({ navigation }) {
         text: "Đăng xuất",
         style: "destructive",
         onPress: () => {
-          // TODO: Implement logout logic
           navigation.replace("Login");
         },
       },
@@ -149,7 +148,6 @@ export default function SettingsScreen({ navigation }) {
           text: "Xóa tài khoản",
           style: "destructive",
           onPress: () => {
-            // TODO: Implement account deletion logic
             navigation.replace("Login");
           },
         },
@@ -159,7 +157,6 @@ export default function SettingsScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity
           style={styles.backButton}
@@ -201,8 +198,7 @@ export default function SettingsScreen({ navigation }) {
             </View>
           </View>
         ))}
-
-        {/* Danger Zone */}
+  
         <View style={styles.dangerZone}>
           <Text style={styles.dangerZoneTitle}>Danger Zone</Text>
           <View style={styles.dangerZoneContent}>

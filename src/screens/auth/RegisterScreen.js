@@ -25,7 +25,6 @@ export default function RegisterScreen({ navigation }) {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleRegister = () => {
-    // Validate form
     if (
       !formData.fullName ||
       !formData.email ||
@@ -42,7 +41,6 @@ export default function RegisterScreen({ navigation }) {
       return;
     }
 
-    // TODO: Implement registration logic
     navigation.navigate("Login");
   };
 
@@ -53,7 +51,6 @@ export default function RegisterScreen({ navigation }) {
         style={styles.container}
       >
         <ScrollView contentContainerStyle={styles.scrollContent}>
-          {/* Header */}
           <TouchableOpacity
             style={styles.backButton}
             onPress={() => navigation.goBack()}
@@ -68,7 +65,6 @@ export default function RegisterScreen({ navigation }) {
             </Text>
           </View>
 
-          {/* Registration Form */}
           <View style={styles.form}>
             <View style={styles.inputContainer}>
               <Ionicons name="person-outline" size={20} color="#666" />
@@ -155,7 +151,6 @@ export default function RegisterScreen({ navigation }) {
               </TouchableOpacity>
             </View>
 
-            {/* Terms and Conditions */}
             <View style={styles.termsContainer}>
               <Text style={styles.termsText}>
                 Bằng cách đăng ký, bạn đồng ý với{" "}
@@ -172,7 +167,6 @@ export default function RegisterScreen({ navigation }) {
               <Text style={styles.registerButtonText}>Đăng ký</Text>
             </TouchableOpacity>
 
-            {/* Login Link */}
             <View style={styles.loginContainer}>
               <Text style={styles.haveAccountText}>Đã có tài khoản? </Text>
               <TouchableOpacity onPress={() => navigation.navigate("Login")}>

@@ -50,8 +50,7 @@ export default function EditProfileScreen({ navigation }) {
 
     setIsLoading(true);
     try {
-      // TODO: Implement save profile logic
-      await new Promise((resolve) => setTimeout(resolve, 1500)); // Simulate API call
+      await new Promise((resolve) => setTimeout(resolve, 1500));
       Alert.alert("Thành công", "Thông tin đã được cập nhật", [
         { text: "OK", onPress: () => navigation.goBack() },
       ]);
@@ -64,7 +63,6 @@ export default function EditProfileScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* Header */}
       <View style={styles.editHeader}>
         <TouchableOpacity
           style={styles.backButton}
@@ -87,7 +85,6 @@ export default function EditProfileScreen({ navigation }) {
       </View>
 
       <ScrollView style={styles.editContent}>
-        {/* Avatar Section */}
         <View style={styles.avatarEditSection}>
           <Image source={{ uri: formData.avatar }} style={styles.editAvatar} />
           <TouchableOpacity
@@ -99,7 +96,6 @@ export default function EditProfileScreen({ navigation }) {
           </TouchableOpacity>
         </View>
 
-        {/* Form Fields */}
         <View style={styles.formSection}>
           <View style={styles.inputGroup}>
             <Text style={styles.inputLabel}>Họ và tên *</Text>

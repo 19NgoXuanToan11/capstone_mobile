@@ -60,7 +60,6 @@ export default function SearchFilterScreen({ navigation }) {
   };
 
   const handleApplyFilters = () => {
-    // TODO: Apply filters and return to search screen
     navigation.goBack();
   };
 
@@ -94,7 +93,6 @@ export default function SearchFilterScreen({ navigation }) {
       </View>
 
       <ScrollView style={styles.filterContent}>
-        {/* Condition Filter */}
         <View style={styles.filterSection}>
           <Text style={styles.filterSectionTitle}>Tình trạng</Text>
           {conditions.map((condition) => (
@@ -119,7 +117,6 @@ export default function SearchFilterScreen({ navigation }) {
           ))}
         </View>
 
-        {/* Categories Filter */}
         <View style={styles.filterSection}>
           <Text style={styles.filterSectionTitle}>Danh mục</Text>
           <View style={styles.categoriesGrid}>
@@ -147,7 +144,6 @@ export default function SearchFilterScreen({ navigation }) {
           </View>
         </View>
 
-        {/* Location Filter */}
         <View style={styles.filterSection}>
           <Text style={styles.filterSectionTitle}>Khoảng cách</Text>
           <Slider
@@ -167,7 +163,6 @@ export default function SearchFilterScreen({ navigation }) {
           </Text>
         </View>
 
-        {/* Additional Options */}
         <View style={styles.filterSection}>
           <View style={styles.switchOption}>
             <Text style={styles.switchOptionText}>
@@ -183,8 +178,7 @@ export default function SearchFilterScreen({ navigation }) {
             />
           </View>
         </View>
-
-        {/* Sort Options */}
+              
         <View style={styles.filterSection}>
           <Text style={styles.filterSectionTitle}>Sắp xếp theo</Text>
           {["recent", "popular", "nearest"].map((option) => (

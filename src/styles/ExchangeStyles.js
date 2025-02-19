@@ -1,14 +1,13 @@
 import { StyleSheet } from "react-native";
 
-// Định nghĩa các màu chủ đạo
 const colors = {
-  primary: "#1976D2", // Màu xanh chính
-  primaryDark: "#1565C0", // Màu xanh đậm
-  primaryLight: "#BBDEFB", // Màu xanh nhạt
-  secondary: "#E3F2FD", // Màu nền nhạt
-  text: "#0D47A1", // Màu chữ đậm
-  textLight: "#64B5F6", // Màu chữ nhạt
-  background: "#F5F9FF", // Màu nền
+  primary: "#1976D2",
+  primaryDark: "#1565C0",
+  primaryLight: "#BBDEFB",
+  secondary: "#E3F2FD",
+  text: "#0D47A1",
+  textLight: "#64B5F6",
+  background: "#F5F9FF",
 };
 
 export default StyleSheet.create({

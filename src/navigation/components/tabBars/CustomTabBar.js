@@ -6,8 +6,9 @@ import {
   StyleSheet,
   Platform,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { TabIcon } from "./TabIcon";
+import { COLORS, SPACING } from "../../../theme";
 
 export default function CustomTabBar({ state, descriptors, navigation }) {
   const insets = useSafeAreaInsets();
@@ -16,7 +17,7 @@ export default function CustomTabBar({ state, descriptors, navigation }) {
     <View
       style={[
         styles.container,
-        { paddingBottom: Platform.OS === "ios" ? insets.bottom : 10 },
+        { paddingBottom: Platform.OS === "ios" ? insets.bottom : SPACING.safe },
       ]}
     >
       {state.routes.map((route, index) => {
@@ -42,17 +43,6 @@ export default function CustomTabBar({ state, descriptors, navigation }) {
           }
         };
 
-        let iconName;
-        if (route.name === "Trang chủ") {
-          iconName = isFocused ? "home" : "home-outline";
-        } else if (route.name === "Trao đổi") {
-          iconName = isFocused ? "swap-horizontal" : "swap-horizontal-outline";
-        } else if (route.name === "Chat") {
-          iconName = isFocused ? "chatbubble" : "chatbubble-outline";
-        } else if (route.name === "Thông báo") {
-          iconName = isFocused ? "notifications" : "notifications-outline";
-        }
-
         return (
           <TouchableOpacity
             key={index}
@@ -64,15 +54,11 @@ export default function CustomTabBar({ state, descriptors, navigation }) {
             style={styles.tabButton}
           >
             <View style={styles.tabItem}>
-              <Ionicons
-                name={iconName}
-                size={24}
-                color={isFocused ? "#4A90E2" : "#999999"}
-              />
+              <TabIcon routeName={route.name} isFocused={isFocused} />
               <Text
                 style={[
                   styles.tabLabel,
-                  { color: isFocused ? "#4A90E2" : "#999999" },
+                  { color: isFocused ? COLORS.primary : COLORS.inactive },
                 ]}
               >
                 {label}
@@ -89,16 +75,13 @@ export default function CustomTabBar({ state, descriptors, navigation }) {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    backgroundColor: "#FFFFFF",
+    backgroundColor: COLORS.white,
     borderTopWidth: 1,
-    borderTopColor: "#E0E0E0",
-    paddingTop: 10,
+    borderTopColor: COLORS.border,
+    paddingTop: SPACING.small,
     elevation: 8,
     shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: -2,
-    },
+    shadowOffset: { width: 0, height: -2 },
     shadowOpacity: 0.1,
     shadowRadius: 3,
   },
