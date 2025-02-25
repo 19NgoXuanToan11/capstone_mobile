@@ -14,6 +14,7 @@ import {
   DrawerItem,
 } from "@react-navigation/drawer";
 import { Ionicons } from "@expo/vector-icons";
+import { COLORS } from "../../../components/theme";
 
 export default function CustomDrawerContent(props) {
   const user = {
@@ -24,7 +25,8 @@ export default function CustomDrawerContent(props) {
   };
 
   const handleLogout = () => {
-    props.navigation.navigate("Login");
+    // Xử lý logout sau này
+    console.log("Logout pressed");
   };
 
   const handleSupport = () => {
@@ -40,7 +42,11 @@ export default function CustomDrawerContent(props) {
             <View style={styles.nameContainer}>
               <Text style={styles.userName}>{user.name}</Text>
               {user.verified && (
-                <Ionicons name="checkmark-circle" size={16} color="#4A90E2" />
+                <Ionicons
+                  name="checkmark-circle"
+                  size={16}
+                  color={COLORS.primary}
+                />
               )}
             </View>
             <Text style={styles.userEmail}>{user.email}</Text>
@@ -148,7 +154,7 @@ const styles = StyleSheet.create({
   userSection: {
     padding: 16,
     borderBottomWidth: 1,
-    borderBottomColor: "#E0E0E0",
+    borderBottomColor: COLORS.border,
   },
   userInfo: {
     flexDirection: "row",
@@ -186,7 +192,7 @@ const styles = StyleSheet.create({
     alignSelf: "flex-start",
   },
   editButtonText: {
-    color: "#4A90E2",
+    color: COLORS.primary,
     fontSize: 14,
     fontWeight: "500",
   },
@@ -194,7 +200,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     padding: 16,
     borderBottomWidth: 1,
-    borderBottomColor: "#E0E0E0",
+    borderBottomColor: COLORS.border,
   },
   statItem: {
     flex: 1,
@@ -212,7 +218,7 @@ const styles = StyleSheet.create({
   },
   statDivider: {
     width: 1,
-    backgroundColor: "#E0E0E0",
+    backgroundColor: COLORS.border,
     marginHorizontal: 12,
   },
   navigationSection: {
@@ -220,7 +226,7 @@ const styles = StyleSheet.create({
   },
   footerSection: {
     borderTopWidth: 1,
-    borderTopColor: "#E0E0E0",
+    borderTopColor: COLORS.border,
     marginTop: 8,
   },
   logoutItem: {

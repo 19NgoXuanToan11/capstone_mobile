@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { TabIcon } from "./TabIcon";
-import { COLORS, SPACING } from "../../../theme";
+import { COLORS, SPACING } from "../../../components/theme";
 
 export default function CustomTabBar({ state, descriptors, navigation }) {
   const insets = useSafeAreaInsets();

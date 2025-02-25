@@ -3,7 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import OnBoardingScreen from "./src/screens/onboarding/OnBoardingScreen";
-import MainNavigator from "./src/navigation/navigators/MainNavigator";
+import AppDrawer from "./src/navigation/components/drawer/AppDrawer";
 
 const Stack = createNativeStackNavigator();
 
@@ -21,7 +21,7 @@ export default function App() {
               initialParams={{ setHasSeenOnboarding }}
             />
           ) : (
-            <Stack.Screen name="Main" component={MainNavigator} />
+            <Stack.Screen name="Main" component={AppDrawer} />
           )}
         </Stack.Navigator>
       </NavigationContainer>

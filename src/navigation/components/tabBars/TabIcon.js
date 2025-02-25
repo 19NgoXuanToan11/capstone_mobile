@@ -1,6 +1,6 @@
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
-import { COLORS } from "../../../theme";
+import { COLORS } from "../../../components/theme";
 
 export function TabIcon({ routeName, isFocused }) {
   let iconName;
