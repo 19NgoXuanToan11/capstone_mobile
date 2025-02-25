@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -6,82 +6,105 @@ import {
   TouchableOpacity,
   Image,
   StyleSheet,
+  Animated,
+  StatusBar,
+  Platform,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { BlurView } from "expo-blur";
+import { useNavigation, DrawerActions } from "@react-navigation/native";
 import { COLORS, SPACING, SHADOW } from "../../../components/theme";
 
-export default function Header({ navigation }) {
+export default function Header() {
+  const [searchFocused, setSearchFocused] = useState(false);
+  const [weatherExpanded, setWeatherExpanded] = useState(false);
+  const navigation = useNavigation();
+
   return (
-    <LinearGradient
-      colors={["#2C5364", "#203A43", "#0F2027"]}
-      start={{ x: 0, y: 0 }}
-      end={{ x: 1, y: 1 }}
-      style={styles.container}
-    >
-      <SafeAreaView style={styles.content}>
-        {/* Top Section */}
+    <View style={styles.outerContainer}>
+      <StatusBar
+        barStyle="light-content"
+        backgroundColor="transparent"
+        translucent
+      />
+      <LinearGradient
+        colors={["#2C5364", "#203A43", "#0F2027"]}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={[styles.container]}
+      >
+        {/* Top Section with Weather - Positioned at the very top */}
         <View style={styles.topSection}>
           <TouchableOpacity
-            style={styles.iconButton}
-            onPress={() => navigation.openDrawer()}
+            style={styles.menuButton}
+            onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
           >
-            <Ionicons name="menu-outline" size={24} color={COLORS.white} />
+            <Ionicons name="menu-outline" size={22} color={COLORS.white} />
           </TouchableOpacity>
 
-          <View style={styles.centerContainer}>
-            <View style={styles.locationButton}>
-              <Ionicons
-                name="location-outline"
-                size={18}
-                color={COLORS.white}
-              />
-              <Text style={styles.locationText}>Hồ Chí Minh</Text>
-              <Ionicons name="chevron-down" size={16} color={COLORS.white} />
+          <TouchableOpacity style={styles.weatherWidget}>
+            <View style={styles.weatherIconContainer}>
+              <Ionicons name="partly-sunny" size={18} color="#FFD700" />
             </View>
-          </View>
+            <View style={styles.weatherInfo}>
+              <Text style={styles.temperature}>32°C</Text>
+              <View style={styles.locationContainer}>
+                <Ionicons
+                  name="location-outline"
+                  size={12}
+                  color={COLORS.white}
+                />
+                <Text style={styles.locationText}>Hồ Chí Minh</Text>
+                <Ionicons name="chevron-down" size={12} color={COLORS.white} />
+              </View>
+            </View>
+          </TouchableOpacity>
 
           <View style={styles.rightButtons}>
-            <TouchableOpacity style={styles.iconButton}>
+            <TouchableOpacity style={styles.notificationButton}>
               <Ionicons
                 name="notifications-outline"
-                size={24}
+                size={22}
                 color={COLORS.white}
               />
               <View style={styles.badge}>
                 <Text style={styles.badgeText}>2</Text>
               </View>
             </TouchableOpacity>
+
             <TouchableOpacity style={styles.avatarButton}>
               <Image
-                source={{ uri: "https://picsum.photos/200" }}
+                source={{
+                  uri: "https://randomuser.me/api/portraits/men/32.jpg",
+                }}
                 style={styles.avatar}
               />
+              <View style={styles.statusDot} />
             </TouchableOpacity>
           </View>
         </View>
 
-        {/* Search Section */}
+        {/* Search Section - Follows immediately after top section */}
         <View style={styles.searchSection}>
-          <View style={styles.searchBar}>
-            <Ionicons name="search-outline" size={20} color="#666" />
+          <Animated.View
+            style={[styles.searchBar, searchFocused && styles.searchBarFocused]}
+          >
+            <Ionicons name="search-outline" size={18} color="#666" />
             <TextInput
               placeholder="Bạn đang tìm gì?"
               placeholderTextColor="#666"
               style={styles.searchInput}
+              onFocus={() => setSearchFocused(true)}
+              onBlur={() => setSearchFocused(false)}
             />
             <TouchableOpacity style={styles.filterButton}>
-              <Ionicons
-                name="options-outline"
-                size={20}
-                color={COLORS.primary}
-              />
+              <Ionicons name="options-outline" size={18} color={COLORS.white} />
             </TouchableOpacity>
-          </View>
+          </Animated.View>
         </View>
 
-        {/* Quick Actions */}
+        {/* Quick Actions - Follows immediately after search */}
         <View style={styles.quickActions}>
           <TouchableOpacity style={styles.actionItem}>
             <View style={[styles.actionIcon, { backgroundColor: "#FF6B6B" }]}>
@@ -98,141 +121,193 @@ export default function Header({ navigation }) {
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.actionItem}>
-            <View style={[styles.actionIcon, { backgroundColor: "#45B7D1" }]}>
+            <View style={[styles.actionIcon, { backgroundColor: "#A18CD1" }]}>
               <Ionicons name="gift" size={20} color={COLORS.white} />
             </View>
             <Text style={styles.actionText}>Ưu đãi</Text>
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.actionItem}>
-            <View style={[styles.actionIcon, { backgroundColor: "#96CEB4" }]}>
+            <View style={[styles.actionIcon, { backgroundColor: "#84FAB0" }]}>
               <Ionicons name="grid" size={20} color={COLORS.white} />
             </View>
             <Text style={styles.actionText}>Danh mục</Text>
           </TouchableOpacity>
         </View>
-      </SafeAreaView>
-    </LinearGradient>
+      </LinearGradient>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  outerContainer: {
+    width: "100%",
+    zIndex: 10,
+  },
   container: {
     width: "100%",
-    paddingBottom: SPACING.medium,
-  },
-  content: {
-    paddingHorizontal: SPACING.medium,
+    paddingBottom: 10,
+    paddingHorizontal: 16,
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 44,
   },
   topSection: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginVertical: SPACING.medium,
+    marginTop: -40,
+    marginBottom: 8,
+    height: 60,
   },
-  iconButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: "rgba(255, 255, 255, 0.1)",
+  menuButton: {
+    width: 36,
+    height: 36,
     justifyContent: "center",
     alignItems: "center",
-    position: "relative",
+    backgroundColor: "rgba(255, 255, 255, 0.1)",
+    borderRadius: 18,
   },
-  centerContainer: {
+  weatherWidget: {
     flex: 1,
-    alignItems: "center",
-  },
-  locationButton: {
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: "rgba(255, 255, 255, 0.1)",
-    paddingHorizontal: SPACING.medium,
-    paddingVertical: SPACING.small,
     borderRadius: 20,
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    marginHorizontal: 10,
+    height: 36,
+  },
+  weatherIconContainer: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    backgroundColor: "rgba(255, 255, 255, 0.15)",
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: 6,
+  },
+  weatherInfo: {
+    flexDirection: "column",
+  },
+  temperature: {
+    color: COLORS.white,
+    fontSize: 14,
+    fontWeight: "600",
+  },
+  locationContainer: {
+    flexDirection: "row",
+    alignItems: "center",
   },
   locationText: {
-    color: COLORS.white,
-    marginHorizontal: SPACING.small,
-    fontSize: 14,
-    fontWeight: "500",
+    color: "rgba(255, 255, 255, 0.8)",
+    fontSize: 10,
+    marginHorizontal: 2,
   },
   rightButtons: {
     flexDirection: "row",
     alignItems: "center",
-    gap: SPACING.small,
+    gap: 8,
+  },
+  notificationButton: {
+    width: 36,
+    height: 36,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(255, 255, 255, 0.1)",
+    borderRadius: 18,
+    position: "relative",
   },
   avatarButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: 36,
+    height: 36,
+    borderRadius: 18,
     overflow: "hidden",
     borderWidth: 2,
     borderColor: COLORS.white,
+    position: "relative",
   },
   avatar: {
     width: "100%",
     height: "100%",
   },
-  badge: {
+  statusDot: {
     position: "absolute",
-    top: -2,
-    right: -2,
-    backgroundColor: "#FF3B30",
-    borderRadius: 10,
-    minWidth: 18,
-    height: 18,
-    justifyContent: "center",
-    alignItems: "center",
+    bottom: 0,
+    right: 0,
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: "#4CD964",
     borderWidth: 1.5,
     borderColor: COLORS.white,
   },
+  badge: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    backgroundColor: "#FF3B30",
+    borderRadius: 8,
+    minWidth: 16,
+    height: 16,
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: COLORS.white,
+    zIndex: 1,
+  },
   badgeText: {
     color: COLORS.white,
-    fontSize: 10,
+    fontSize: 8,
     fontWeight: "600",
   },
   searchSection: {
-    marginBottom: SPACING.medium,
+    marginBottom: 20,
+    height: 50,
   },
   searchBar: {
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: COLORS.white,
-    borderRadius: 16,
-    paddingHorizontal: SPACING.medium,
-    paddingVertical: SPACING.medium,
-    ...SHADOW.medium,
+    borderRadius: 20,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    height: "100%",
+  },
+  searchBarFocused: {
+    borderWidth: 1,
+    borderColor: COLORS.primary,
   },
   searchInput: {
     flex: 1,
-    marginLeft: SPACING.small,
-    fontSize: 15,
+    marginLeft: 8,
+    fontSize: 14,
+    height: "100%",
+    padding: 0,
   },
   filterButton: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    backgroundColor: "#F5F5F5",
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    backgroundColor: COLORS.primary,
     justifyContent: "center",
     alignItems: "center",
   },
   quickActions: {
     flexDirection: "row",
     justifyContent: "space-between",
-    paddingHorizontal: SPACING.small,
+    paddingHorizontal: 8,
+    height: 70,
   },
   actionItem: {
     alignItems: "center",
   },
   actionIcon: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
+    width: 48,
+    height: 48,
+    borderRadius: 24,
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: SPACING.small,
-    ...SHADOW.small,
+    marginBottom: 6,
   },
   actionText: {
     color: COLORS.white,
