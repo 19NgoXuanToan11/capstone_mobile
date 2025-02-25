@@ -7,167 +7,271 @@ import {
   TouchableOpacity,
   ScrollView,
   Linking,
+  StatusBar,
+  Platform,
 } from "react-native";
-import {
-  DrawerContentScrollView,
-  DrawerItemList,
-  DrawerItem,
-} from "@react-navigation/drawer";
+import { DrawerContentScrollView } from "@react-navigation/drawer";
 import { Ionicons } from "@expo/vector-icons";
-import { COLORS } from "../../../components/theme";
+import { LinearGradient } from "expo-linear-gradient";
+import { BlurView } from "expo-blur";
+import { COLORS, SHADOW } from "../../../components/theme";
 
 export default function CustomDrawerContent(props) {
-  const user = {
+  const userInfo = {
     name: "Nguyễn Văn A",
-    email: "nguyenvana@gmail.com",
-    avatar: "https://picsum.photos/200",
+    email: "nguyenvana@example.com",
+    avatar: "https://randomuser.me/api/portraits/men/32.jpg",
+    level: "Thành viên Vàng",
     verified: true,
   };
 
-  const handleLogout = () => {
-    // Xử lý logout sau này
-    console.log("Logout pressed");
-  };
+  const stats = [
+    { label: "Sản phẩm", value: 12 },
+    { label: "Trao đổi", value: 5 },
+    { label: "Đánh giá", value: "4.8" },
+  ];
+
+  const menuItems = [
+    {
+      icon: "home-outline",
+      label: "Trang chủ",
+      screen: "Home",
+      gradient: ["#4F8EF7", "#2D6CDF"],
+    },
+    {
+      icon: "cube-outline",
+      label: "Sản phẩm của tôi",
+      screen: "MyProducts",
+      gradient: ["#4ECDC4", "#45B7D1"],
+    },
+    {
+      icon: "swap-horizontal-outline",
+      label: "Trao đổi của tôi",
+      screen: "MyExchanges",
+      gradient: ["#A18CD1", "#FBC2EB"],
+    },
+    {
+      icon: "notifications-outline",
+      label: "Thông báo",
+      screen: "Notifications",
+      gradient: ["#FF9A9E", "#FAD0C4"],
+    },
+    {
+      icon: "heart-outline",
+      label: "Yêu thích",
+      screen: "Favorites",
+      gradient: ["#FF9A9E", "#FECFEF"],
+    },
+    {
+      icon: "settings-outline",
+      label: "Cài đặt",
+      screen: "Settings",
+      gradient: ["#A1C4FD", "#C2E9FB"],
+    },
+  ];
 
   const handleSupport = () => {
     Linking.openURL("mailto:support@yourapp.com");
   };
 
+  const handleLogout = () => {
+    // Xử lý đăng xuất
+    console.log("Logout pressed");
+    props.navigation.closeDrawer();
+  };
+
   return (
-    <DrawerContentScrollView {...props}>
-      <View style={styles.userSection}>
-        <View style={styles.userInfo}>
-          <Image source={{ uri: user.avatar }} style={styles.avatar} />
-          <View style={styles.userTextContainer}>
+    <View style={styles.container}>
+      <StatusBar
+        barStyle="light-content"
+        backgroundColor="transparent"
+        translucent
+      />
+
+      {/* Header with user info */}
+      <LinearGradient
+        colors={["#2C5364", "#203A43", "#0F2027"]}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={styles.header}
+      >
+        <View style={styles.userInfoContainer}>
+          <View style={styles.avatarContainer}>
+            <Image source={{ uri: userInfo.avatar }} style={styles.avatar} />
+            {userInfo.verified && (
+              <View style={styles.verifiedBadge}>
+                <Ionicons name="checkmark" size={12} color="#FFF" />
+              </View>
+            )}
+          </View>
+
+          <View style={styles.userInfo}>
             <View style={styles.nameContainer}>
-              <Text style={styles.userName}>{user.name}</Text>
-              {user.verified && (
-                <Ionicons
-                  name="checkmark-circle"
-                  size={16}
-                  color={COLORS.primary}
-                />
-              )}
+              <Text style={styles.userName}>{userInfo.name}</Text>
             </View>
-            <Text style={styles.userEmail}>{user.email}</Text>
+            <Text style={styles.userEmail}>{userInfo.email}</Text>
+
+            <View style={styles.levelContainer}>
+              <LinearGradient
+                colors={["#FFD700", "#FFA500"]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                style={styles.levelBadge}
+              >
+                <Text style={styles.levelText}>{userInfo.level}</Text>
+              </LinearGradient>
+            </View>
           </View>
         </View>
+
         <TouchableOpacity
           style={styles.editButton}
           onPress={() => props.navigation.navigate("EditProfile")}
         >
           <Text style={styles.editButtonText}>Chỉnh sửa</Text>
         </TouchableOpacity>
-      </View>
 
-      <View style={styles.statsContainer}>
-        <TouchableOpacity
-          style={styles.statItem}
-          onPress={() => props.navigation.navigate("MyProducts")}
-        >
-          <Text style={styles.statNumber}>12</Text>
-          <Text style={styles.statLabel}>Sản phẩm</Text>
-        </TouchableOpacity>
-        <View style={styles.statDivider} />
-        <TouchableOpacity
-          style={styles.statItem}
-          onPress={() => props.navigation.navigate("MyExchanges")}
-        >
-          <Text style={styles.statNumber}>5</Text>
-          <Text style={styles.statLabel}>Trao đổi</Text>
-        </TouchableOpacity>
-        <View style={styles.statDivider} />
-        <TouchableOpacity
-          style={styles.statItem}
-          onPress={() => props.navigation.navigate("Reviews")}
-        >
-          <Text style={styles.statNumber}>4.8</Text>
-          <Text style={styles.statLabel}>Đánh giá</Text>
-        </TouchableOpacity>
-      </View>
+        {/* User stats */}
+        <View style={styles.statsContainer}>
+          {stats.map((stat, index) => (
+            <React.Fragment key={index}>
+              {index > 0 && <View style={styles.statDivider} />}
+              <TouchableOpacity
+                style={styles.statItem}
+                onPress={() =>
+                  props.navigation.navigate(
+                    index === 0
+                      ? "MyProducts"
+                      : index === 1
+                      ? "MyExchanges"
+                      : "Reviews"
+                  )
+                }
+              >
+                <Text style={styles.statNumber}>{stat.value}</Text>
+                <Text style={styles.statLabel}>{stat.label}</Text>
+              </TouchableOpacity>
+            </React.Fragment>
+          ))}
+        </View>
+      </LinearGradient>
 
-      <View style={styles.navigationSection}>
-        <DrawerItem
-          label="Trang chủ"
-          icon={({ color, size }) => (
-            <Ionicons name="home-outline" color={color} size={size} />
-          )}
-          onPress={() => props.navigation.navigate("Home")}
-        />
-        <DrawerItem
-          label="Sản phẩm của tôi"
-          icon={({ color, size }) => (
-            <Ionicons name="cube-outline" color={color} size={size} />
-          )}
-          onPress={() => props.navigation.navigate("MyProducts")}
-        />
-        <DrawerItem
-          label="Trao đổi của tôi"
-          icon={({ color, size }) => (
-            <Ionicons
-              name="swap-horizontal-outline"
-              color={color}
-              size={size}
-            />
-          )}
-          onPress={() => props.navigation.navigate("MyExchanges")}
-        />
-        <DrawerItem
-          label="Thông báo"
-          icon={({ color, size }) => (
-            <Ionicons name="notifications-outline" color={color} size={size} />
-          )}
-          onPress={() => props.navigation.navigate("Notifications")}
-        />
-        <DrawerItem
-          label="Cài đặt"
-          icon={({ color, size }) => (
-            <Ionicons name="settings-outline" color={color} size={size} />
-          )}
-          onPress={() => props.navigation.navigate("Settings")}
-        />
-      </View>
+      {/* Menu Items */}
+      <DrawerContentScrollView
+        {...props}
+        contentContainerStyle={styles.scrollContent}
+      >
+        <View style={styles.menuContainer}>
+          {menuItems.map((item, index) => (
+            <TouchableOpacity
+              key={index}
+              style={styles.menuItem}
+              onPress={() => {
+                props.navigation.navigate(item.screen);
+              }}
+            >
+              <LinearGradient
+                colors={item.gradient}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
+                style={styles.menuIconContainer}
+              >
+                <Ionicons name={item.icon} size={22} color={COLORS.white} />
+              </LinearGradient>
+              <Text style={styles.menuItemText}>{item.label}</Text>
+              <Ionicons
+                name="chevron-forward"
+                size={18}
+                color={COLORS.inactive}
+              />
+            </TouchableOpacity>
+          ))}
+        </View>
 
-      <View style={styles.footerSection}>
-        <DrawerItem
-          label="Hỗ trợ"
-          icon={({ color, size }) => (
-            <Ionicons name="help-circle-outline" color={color} size={size} />
-          )}
-          onPress={handleSupport}
-        />
-        <DrawerItem
-          label="Đăng xuất"
-          icon={({ color, size }) => (
-            <Ionicons name="log-out-outline" color={color} size={size} />
-          )}
-          onPress={handleLogout}
-          style={styles.logoutItem}
-          labelStyle={styles.logoutLabel}
-        />
+        {/* Footer Items */}
+        <View style={styles.footerMenu}>
+          <TouchableOpacity
+            style={styles.footerMenuItem}
+            onPress={handleSupport}
+          >
+            <View
+              style={[
+                styles.footerMenuIconContainer,
+                { backgroundColor: "#F0F0F0" },
+              ]}
+            >
+              <Ionicons
+                name="help-circle-outline"
+                size={22}
+                color={COLORS.primary}
+              />
+            </View>
+            <Text style={styles.footerMenuItemText}>Hỗ trợ</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[styles.footerMenuItem, styles.logoutMenuItem]}
+            onPress={handleLogout}
+          >
+            <View
+              style={[
+                styles.footerMenuIconContainer,
+                { backgroundColor: "#FFF0F0" },
+              ]}
+            >
+              <Ionicons name="log-out-outline" size={22} color="#FF3B30" />
+            </View>
+            <Text style={styles.logoutText}>Đăng xuất</Text>
+          </TouchableOpacity>
+        </View>
+      </DrawerContentScrollView>
+
+      <View style={styles.versionContainer}>
+        <Text style={styles.versionText}>Phiên bản 1.0.0</Text>
       </View>
-    </DrawerContentScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  userSection: {
-    padding: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: COLORS.border,
+  container: {
+    flex: 1,
+    backgroundColor: COLORS.white,
   },
-  userInfo: {
+  header: {
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight + 20 : 60,
+    paddingBottom: 15,
+    paddingHorizontal: 20,
+  },
+  userInfoContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 12,
+  },
+  avatarContainer: {
+    position: "relative",
   },
   avatar: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    marginRight: 12,
+    width: 70,
+    height: 70,
+    borderRadius: 35,
+    borderWidth: 3,
+    borderColor: "rgba(255, 255, 255, 0.8)",
   },
-  userTextContainer: {
+  verifiedBadge: {
+    position: "absolute",
+    bottom: 0,
+    right: 0,
+    backgroundColor: COLORS.primary,
+    borderRadius: 10,
+    width: 20,
+    height: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 2,
+    borderColor: COLORS.white,
+  },
+  userInfo: {
+    marginLeft: 15,
     flex: 1,
   },
   nameContainer: {
@@ -175,64 +279,152 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   userName: {
-    fontSize: 18,
-    fontWeight: "600",
-    color: "#333",
-    marginRight: 4,
+    color: COLORS.white,
+    fontSize: 20,
+    fontWeight: "bold",
   },
   userEmail: {
+    color: "rgba(255, 255, 255, 0.8)",
     fontSize: 14,
-    color: "#666",
-    marginTop: 2,
+    marginBottom: 8,
+  },
+  levelContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  levelBadge: {
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 12,
+    marginRight: 10,
+  },
+  levelText: {
+    color: COLORS.white,
+    fontSize: 12,
+    fontWeight: "bold",
+  },
+  pointsContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
+    borderRadius: 12,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+  },
+  pointsText: {
+    color: COLORS.white,
+    fontSize: 12,
+    marginLeft: 4,
   },
   editButton: {
-    backgroundColor: "#F5F5F5",
-    padding: 8,
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
     borderRadius: 20,
+    paddingHorizontal: 15,
+    paddingVertical: 6,
     alignSelf: "flex-start",
+    marginTop: 10,
+    marginBottom: 15,
   },
   editButtonText: {
-    color: COLORS.primary,
+    color: COLORS.white,
     fontSize: 14,
     fontWeight: "500",
   },
   statsContainer: {
     flexDirection: "row",
-    padding: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: COLORS.border,
+    backgroundColor: "rgba(255, 255, 255, 0.1)",
+    borderRadius: 12,
+    padding: 10,
   },
   statItem: {
     flex: 1,
     alignItems: "center",
+    justifyContent: "center",
   },
   statNumber: {
+    color: COLORS.white,
     fontSize: 18,
-    fontWeight: "600",
-    color: "#333",
+    fontWeight: "bold",
   },
   statLabel: {
+    color: "rgba(255, 255, 255, 0.8)",
     fontSize: 12,
-    color: "#666",
     marginTop: 4,
   },
   statDivider: {
     width: 1,
-    backgroundColor: COLORS.border,
-    marginHorizontal: 12,
+    height: "70%",
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
   },
-  navigationSection: {
-    paddingTop: 8,
+  scrollContent: {
+    paddingTop: 0,
   },
-  footerSection: {
+  menuContainer: {
+    paddingTop: 15,
+    paddingHorizontal: 15,
+  },
+  menuItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: "rgba(0, 0, 0, 0.05)",
+  },
+  menuIconContainer: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: 15,
+    ...SHADOW.small,
+  },
+  menuItemText: {
+    flex: 1,
+    fontSize: 16,
+    color: COLORS.text,
+    fontWeight: "500",
+  },
+  footerMenu: {
+    marginTop: 20,
+    paddingHorizontal: 15,
     borderTopWidth: 1,
-    borderTopColor: COLORS.border,
-    marginTop: 8,
+    borderTopColor: "rgba(0, 0, 0, 0.05)",
+    paddingTop: 15,
   },
-  logoutItem: {
-    marginTop: "auto",
+  footerMenuItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 12,
   },
-  logoutLabel: {
+  footerMenuIconContainer: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: 15,
+  },
+  footerMenuItemText: {
+    flex: 1,
+    fontSize: 16,
+    color: COLORS.text,
+    fontWeight: "500",
+  },
+  logoutMenuItem: {
+    marginTop: 10,
+  },
+  logoutText: {
+    fontSize: 16,
     color: "#FF3B30",
+    fontWeight: "500",
+  },
+  versionContainer: {
+    padding: 15,
+    alignItems: "center",
+  },
+  versionText: {
+    fontSize: 12,
+    color: COLORS.inactive,
   },
 });
