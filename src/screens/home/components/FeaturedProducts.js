@@ -178,6 +178,10 @@ export default function FeaturedProducts() {
     </TouchableOpacity>
   );
 
+  const handleSeeAll = () => {
+    navigation.navigate("AllProducts", { products: featuredProducts });
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>

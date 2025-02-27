@@ -13,6 +13,7 @@ import ProductDetailScreen from "../../../screens/product/ProductDetailScreen";
 import OrderTrackingScreen from "../../../screens/checkout/OrderTrackingScreen";
 import OrderConfirmationScreen from "../../../screens/checkout/OrderConfirmationScreen";
 import CheckoutScreen from "../../../screens/checkout/CheckoutScreen";
+import AllProductsScreen from "../../../screens/product/AllProductsScreen";
 
 const Drawer = createDrawerNavigator();
 
@@ -42,6 +43,7 @@ export default function AppDrawer() {
         component={OrderConfirmationScreen}
       />
       <Drawer.Screen name="Checkout" component={CheckoutScreen} />
+      <Drawer.Screen name="AllProducts" component={AllProductsScreen} />
     </Drawer.Navigator>
   );
 }
