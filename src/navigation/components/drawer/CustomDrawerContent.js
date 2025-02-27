@@ -35,7 +35,7 @@ export default function CustomDrawerContent(props) {
     {
       icon: "home-outline",
       label: "Trang chủ",
-      screen: "Home",
+      screen: "MainTabs",
       gradient: ["#4F8EF7", "#2D6CDF"],
     },
     {
