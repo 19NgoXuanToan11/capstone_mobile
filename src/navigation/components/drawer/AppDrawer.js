@@ -10,6 +10,10 @@ import NotificationListScreen from "../../../screens/notification/NotificationLi
 import HomeScreen from "../../../screens/home/HomeScreen";
 import FavoritesScreen from "../../../screens/favorite/FavoritesScreen";
 import ProductDetailScreen from "../../../screens/product/ProductDetailScreen";
+import OrderTrackingScreen from "../../../screens/checkout/OrderTrackingScreen";
+import OrderConfirmationScreen from "../../../screens/checkout/OrderConfirmationScreen";
+import CheckoutScreen from "../../../screens/checkout/CheckoutScreen";
+
 const Drawer = createDrawerNavigator();
 
 export default function AppDrawer() {
@@ -32,6 +36,12 @@ export default function AppDrawer() {
       <Drawer.Screen name="Settings" component={SettingsScreen} />
       <Drawer.Screen name="Favorites" component={FavoritesScreen} />
       <Drawer.Screen name="Notifications" component={NotificationListScreen} />
+      <Drawer.Screen name="OrderTracking" component={OrderTrackingScreen} />
+      <Drawer.Screen
+        name="OrderConfirmation"
+        component={OrderConfirmationScreen}
+      />
+      <Drawer.Screen name="Checkout" component={CheckoutScreen} />
     </Drawer.Navigator>
   );
 }
