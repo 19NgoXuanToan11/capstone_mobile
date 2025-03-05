@@ -14,6 +14,8 @@ import OrderTrackingScreen from "../../../screens/checkout/OrderTrackingScreen";
 import OrderConfirmationScreen from "../../../screens/checkout/OrderConfirmationScreen";
 import CheckoutScreen from "../../../screens/checkout/CheckoutScreen";
 import AllProductsScreen from "../../../screens/product/AllProductsScreen";
+import CreateExchangeScreen from "../../../screens/exchange/CreateExchangeScreen";
+import ExchangeScreen from "../../../screens/exchange/ExchangeScreen";
 
 const Drawer = createDrawerNavigator();
 
@@ -44,6 +46,8 @@ export default function AppDrawer() {
       />
       <Drawer.Screen name="Checkout" component={CheckoutScreen} />
       <Drawer.Screen name="AllProducts" component={AllProductsScreen} />
+      <Drawer.Screen name="CreateExchange" component={CreateExchangeScreen} />
+      <Drawer.Screen name="ExchangeMain" component={ExchangeScreen} />
     </Drawer.Navigator>
   );
 }
