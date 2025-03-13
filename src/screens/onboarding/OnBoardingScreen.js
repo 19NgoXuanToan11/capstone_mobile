@@ -133,8 +133,12 @@ export default function OnBoardingScreen({ navigation, route }) {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="light-content" />
+    <View style={styles.container}>
+      <StatusBar
+        translucent
+        backgroundColor="transparent"
+        barStyle="light-content"
+      />
 
       <TouchableOpacity style={styles.skipButton} onPress={handleSkip}>
         <Text style={styles.skipText}>Skip</Text>
@@ -177,13 +181,15 @@ export default function OnBoardingScreen({ navigation, route }) {
           )}
         </View>
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    width: "100%",
+    height: "100%",
   },
   skipButton: {
     position: "absolute",

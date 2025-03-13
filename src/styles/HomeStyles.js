@@ -1,9 +1,19 @@
 import { StyleSheet } from "react-native";
 
-export default StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
+    width: "100%",
+    height: "100%",
     backgroundColor: "#f5f5f5",
+  },
+  scrollView: {
+    flex: 1,
+    width: "100%",
+  },
+  scrollViewContent: {
+    flexGrow: 1,
+    paddingBottom: 20,
   },
   header: {
     backgroundColor: "#fff",
@@ -338,3 +348,5 @@ export default StyleSheet.create({
     fontWeight: "500",
   },
 });
+
+export default styles;

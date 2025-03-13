@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import {
   View,
   ScrollView,
@@ -18,10 +18,12 @@ import { LinearGradient } from "expo-linear-gradient";
 import * as ImagePicker from "expo-image-picker";
 import { BlurView } from "expo-blur";
 import { COLORS, SHADOW } from "../../components/theme";
+import { AuthContext } from "../../../App";
 
 const { width } = Dimensions.get("window");
 
 export default function PostProductScreen({ navigation }) {
+  const { isLoggedIn } = useContext(AuthContext);
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -39,6 +41,13 @@ export default function PostProductScreen({ navigation }) {
   const scrollViewRef = useRef(null);
   const scrollX = useRef(new Animated.Value(0)).current;
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  useEffect(() => {
+    // Kiểm tra nếu chưa đăng nhập thì chuyển đến màn hình đăng nhập
+    if (!isLoggedIn) {
+      navigation.navigate("Login", { returnTo: "PostProduct" });
+    }
+  }, [isLoggedIn]);
 
   const handleImagePick = async () => {
     const permissionResult =
