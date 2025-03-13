@@ -1,5 +1,11 @@
 import React from "react";
-import { View, ScrollView, RefreshControl } from "react-native";
+import {
+  View,
+  ScrollView,
+  RefreshControl,
+  StatusBar,
+  Dimensions,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "./components/Header";
 import QuickActions from "./components/QuickActions";
@@ -8,6 +14,8 @@ import Categories from "./components/Categories";
 import RecommendedUsers from "./components/RecommendedUsers";
 import FeaturedProducts from "./components/FeaturedProducts";
 import styles from "../../styles/HomeStyles";
+
+const { width, height } = Dimensions.get("window");
 
 export default function HomeScreen() {
   const [refreshing, setRefreshing] = React.useState(false);
@@ -19,10 +27,16 @@ export default function HomeScreen() {
   }, []);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={[styles.container, { width, height }]}>
+      <StatusBar
+        translucent
+        backgroundColor="transparent"
+        barStyle="light-content"
+      />
       <Header />
       <ScrollView
         style={styles.scrollView}
+        contentContainerStyle={styles.scrollViewContent}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
@@ -33,6 +47,6 @@ export default function HomeScreen() {
         <RecommendedUsers />
         <FeaturedProducts />
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }

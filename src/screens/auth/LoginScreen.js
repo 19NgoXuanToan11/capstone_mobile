@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   View,
   Text,
@@ -14,18 +14,31 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import styles from "../../styles/AuthStyles";
 import logo from "../../../assets/logo.png";
+import { AuthContext } from "../../../App";
 
-export default function LoginScreen({ navigation }) {
+export default function LoginScreen({ navigation, route }) {
+  const { signIn } = useContext(AuthContext);
+  const returnScreen = route.params?.returnScreen;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (!email || !password) {
       Alert.alert("Lỗi", "Vui lòng nhập đầy đủ thông tin");
       return;
     }
-    navigation.replace("Main");
+
+    // Giả sử đăng nhập thành công và nhận được token
+    const token = "example_token";
+    await signIn(token);
+
+    // Quay lại màn hình trước đó nếu có
+    if (returnScreen) {
+      navigation.navigate(returnScreen);
+    } else {
+      navigation.navigate("Main");
+    }
   };
 
   return (
