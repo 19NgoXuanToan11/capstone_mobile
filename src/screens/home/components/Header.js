@@ -62,17 +62,6 @@ export default function Header() {
           </TouchableOpacity>
 
           <View style={styles.rightButtons}>
-            <TouchableOpacity style={styles.notificationButton}>
-              <Ionicons
-                name="notifications-outline"
-                size={22}
-                color={COLORS.white}
-              />
-              <View style={styles.badge}>
-                <Text style={styles.badgeText}>2</Text>
-              </View>
-            </TouchableOpacity>
-
             <TouchableOpacity style={styles.avatarButton}>
               <Image
                 source={{

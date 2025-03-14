@@ -8,6 +8,8 @@ import {
   TextInput,
   Animated,
   StyleSheet,
+  StatusBar,
+  Platform,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
@@ -168,23 +170,30 @@ export default function ExchangeScreen({ navigation }) {
   );
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>Trao đổi</Text>
-        <TouchableOpacity
-          style={styles.postButton}
-          onPress={() => navigation.navigate("CreateExchange")}
-        >
-          <LinearGradient
-            colors={[COLORS.primary, `${COLORS.primary}CC`]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-            style={styles.gradientButton}
+    <View style={styles.container}>
+      <StatusBar
+        barStyle="dark-content"
+        backgroundColor="transparent"
+        translucent
+      />
+      <View style={styles.headerContainer}>
+        <View style={styles.header}>
+          <Text style={styles.headerTitle}>Trao đổi</Text>
+          <TouchableOpacity
+            style={styles.postButton}
+            onPress={() => navigation.navigate("CreateExchange")}
           >
-            <Ionicons name="add-circle-outline" size={24} color="#fff" />
-            <Text style={styles.postButtonText}>Đăng tin</Text>
-          </LinearGradient>
-        </TouchableOpacity>
+            <LinearGradient
+              colors={[COLORS.primary, `${COLORS.primary}CC`]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={styles.gradientButton}
+            >
+              <Ionicons name="add-circle-outline" size={24} color="#fff" />
+              <Text style={styles.postButtonText}>Đăng tin</Text>
+            </LinearGradient>
+          </TouchableOpacity>
+        </View>
       </View>
 
       <View style={styles.searchContainer}>
@@ -253,7 +262,7 @@ export default function ExchangeScreen({ navigation }) {
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
         {exchangeItems.map(renderExchangeCard)}
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -262,6 +271,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#f8f9fa",
   },
+  headerContainer: {
+    backgroundColor: "#FFFFFF",
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 44,
+    ...SHADOW.medium,
+  },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -269,10 +283,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     backgroundColor: COLORS.white,
-    ...SHADOW.medium,
   },
   headerTitle: {
-    fontSize: 22,
+    fontSize: 28,
     fontWeight: "700",
     color: "#1A1A1A",
   },
@@ -296,7 +309,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 16,
     paddingVertical: 12,
-    backgroundColor: COLORS.white,
+    backgroundColor: "#FFFFFF",
   },
   searchBar: {
     flex: 1,
@@ -330,7 +343,7 @@ const styles = StyleSheet.create({
   categoriesContainer: {
     paddingVertical: 12,
     paddingLeft: 16,
-    backgroundColor: COLORS.white,
+    backgroundColor: "#FFFFFF",
     marginBottom: 8,
   },
   categoryChip: {
