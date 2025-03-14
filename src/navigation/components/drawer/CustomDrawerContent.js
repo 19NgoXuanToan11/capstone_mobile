@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -9,14 +9,24 @@ import {
   Linking,
   StatusBar,
   Platform,
+  Alert,
+  Switch,
 } from "react-native";
-import { DrawerContentScrollView } from "@react-navigation/drawer";
+import {
+  DrawerContentScrollView,
+  DrawerItemList,
+} from "@react-navigation/drawer";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { BlurView } from "expo-blur";
 import { COLORS, SHADOW } from "../../../components/theme";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
 
 export default function CustomDrawerContent(props) {
+  const navigation = useNavigation();
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
   const userInfo = {
     name: "Nguyễn Văn A",
     email: "nguyenvana@example.com",
@@ -75,9 +85,47 @@ export default function CustomDrawerContent(props) {
   };
 
   const handleLogout = () => {
-    // Xử lý đăng xuất
-    console.log("Logout pressed");
-    props.navigation.closeDrawer();
+    Alert.alert(
+      "Đăng xuất",
+      "Bạn có chắc chắn muốn đăng xuất?",
+      [
+        {
+          text: "Hủy",
+          style: "cancel",
+        },
+        {
+          text: "Đăng xuất",
+          onPress: async () => {
+            try {
+              // Xóa token và thông tin người dùng từ AsyncStorage
+              await AsyncStorage.multiRemove(["userToken", "userData"]);
+
+              // Thay vì sử dụng reset, hãy navigate đến màn hình đăng nhập
+              navigation.navigate("Login"); // Thay 'Login' bằng tên màn hình đăng nhập thực tế trong ứng dụng của bạn
+
+              // Hoặc nếu bạn muốn sử dụng reset, hãy đảm bảo tên màn hình chính xác
+              // navigation.reset({
+              //   index: 0,
+              //   routes: [{ name: 'Login' }], // Thay 'Login' bằng tên màn hình đăng nhập thực tế
+              // });
+            } catch (error) {
+              console.error("Lỗi khi đăng xuất:", error);
+              Alert.alert(
+                "Lỗi",
+                "Đã xảy ra lỗi khi đăng xuất. Vui lòng thử lại."
+              );
+            }
+          },
+          style: "destructive",
+        },
+      ],
+      { cancelable: true }
+    );
+  };
+
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+    // Thêm logic để thay đổi theme của ứng dụng ở đây
   };
 
   return (
