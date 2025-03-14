@@ -8,6 +8,8 @@ import {
   RefreshControl,
   Animated,
   StyleSheet,
+  StatusBar,
+  Platform,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
@@ -349,12 +351,16 @@ export default function NotificationListScreen({ navigation }) {
   );
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>Thông báo</Text>
-        <TouchableOpacity style={styles.settingsButton}>
-          <Ionicons name="settings-outline" size={24} color="#1A1A1A" />
-        </TouchableOpacity>
+    <View style={styles.container}>
+      <StatusBar
+        barStyle="dark-content"
+        backgroundColor="transparent"
+        translucent
+      />
+      <View style={styles.headerContainer}>
+        <View style={styles.header}>
+          <Text style={styles.headerTitle}>Thông báo</Text>
+        </View>
       </View>
 
       <FlatList
@@ -375,7 +381,7 @@ export default function NotificationListScreen({ navigation }) {
           <Text style={styles.markAllReadText}>Đánh dấu tất cả đã đọc</Text>
         </TouchableOpacity>
       )}
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -384,6 +390,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#F8F9FA",
   },
+  headerContainer: {
+    backgroundColor: "#FFFFFF",
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 44,
+    ...SHADOW.medium,
+  },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -391,10 +402,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     backgroundColor: COLORS.white,
-    ...SHADOW.medium,
   },
   headerTitle: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: "700",
     color: "#1A1A1A",
   },

@@ -269,56 +269,60 @@ export default function MyListingsScreen({ navigation }) {
   );
 
   return (
-    <SafeAreaView style={styles.container} edges={["top"]}>
-      <StatusBar barStyle="dark-content" backgroundColor="#FFF" />
-
-      {/* Header */}
-      <View style={styles.header}>
-        <TouchableOpacity
-          style={styles.backButton}
-          onPress={() => navigation.goBack()}
-        >
-          <Ionicons name="chevron-back" size={24} color="#000" />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>Sản phẩm của tôi</Text>
-        <View style={styles.headerRight} />
-      </View>
-
-      {/* Tab Selector */}
-      <View style={styles.tabContainer}>
-        <TouchableOpacity
-          style={[
-            styles.tabButton,
-            activeTab === "active" && styles.activeTabButton,
-          ]}
-          onPress={() => setActiveTab("active")}
-        >
-          <Text
-            style={[
-              styles.tabText,
-              activeTab === "active" && styles.activeTabText,
-            ]}
+    <View style={styles.container}>
+      <StatusBar
+        barStyle="dark-content"
+        backgroundColor="transparent"
+        translucent
+      />
+      <View style={styles.headerContainer}>
+        <View style={styles.header}>
+          <TouchableOpacity
+            style={styles.backButton}
+            onPress={() => navigation.goBack()}
           >
-            Đang hiển thị ({listings.active.length})
-          </Text>
-        </TouchableOpacity>
+            <Ionicons name="chevron-back" size={24} color="#000" />
+          </TouchableOpacity>
+          <Text style={styles.headerTitle}>Sản phẩm của tôi</Text>
+          <View style={styles.headerRight} />
+        </View>
 
-        <TouchableOpacity
-          style={[
-            styles.tabButton,
-            activeTab === "inactive" && styles.activeTabButton,
-          ]}
-          onPress={() => setActiveTab("inactive")}
-        >
-          <Text
+        {/* Tab Selector */}
+        <View style={styles.tabContainer}>
+          <TouchableOpacity
             style={[
-              styles.tabText,
-              activeTab === "inactive" && styles.activeTabText,
+              styles.tabButton,
+              activeTab === "active" && styles.activeTabButton,
             ]}
+            onPress={() => setActiveTab("active")}
           >
-            Đã ẩn ({listings.inactive.length})
-          </Text>
-        </TouchableOpacity>
+            <Text
+              style={[
+                styles.tabText,
+                activeTab === "active" && styles.activeTabText,
+              ]}
+            >
+              Đang hiển thị ({listings.active.length})
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[
+              styles.tabButton,
+              activeTab === "inactive" && styles.activeTabButton,
+            ]}
+            onPress={() => setActiveTab("inactive")}
+          >
+            <Text
+              style={[
+                styles.tabText,
+                activeTab === "inactive" && styles.activeTabText,
+              ]}
+            >
+              Đã ẩn ({listings.inactive.length})
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
       {/* Listings */}
@@ -333,7 +337,7 @@ export default function MyListingsScreen({ navigation }) {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       />
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -342,13 +346,17 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#F8F8F8",
   },
+  headerContainer: {
+    backgroundColor: "#FFF",
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 44,
+    ...SHADOW.medium,
+  },
   header: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     paddingHorizontal: 16,
     paddingVertical: 12,
-    backgroundColor: "#FFF",
   },
   backButton: {
     width: 40,
@@ -366,7 +374,6 @@ const styles = StyleSheet.create({
   },
   tabContainer: {
     flexDirection: "row",
-    backgroundColor: "#FFF",
     paddingHorizontal: 16,
     paddingBottom: 16,
   },

@@ -89,13 +89,6 @@ export default function CustomDrawerContent(props) {
       gradient: ["#A18CD1", "#FBC2EB"],
     },
     {
-      icon: "bell",
-      iconType: "feather",
-      label: "Thông báo",
-      screen: "Notifications",
-      gradient: ["#FF9A9E", "#FAD0C4"],
-    },
-    {
       icon: "heart",
       iconType: "feather",
       label: "Yêu thích",

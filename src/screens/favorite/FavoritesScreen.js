@@ -10,6 +10,7 @@ import {
   StatusBar,
   Dimensions,
   RefreshControl,
+  Platform,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
@@ -356,11 +357,15 @@ const FavoritesScreen = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={styles.container} edges={["right", "left"]}>
-      <StatusBar barStyle="dark-content" backgroundColor="#FFF" />
+    <View style={styles.container}>
+      <StatusBar
+        barStyle="dark-content"
+        backgroundColor="transparent"
+        translucent
+      />
 
       {/* Header */}
-      <View style={styles.header}>
+      <View style={styles.headerContainer}>
         <View style={styles.headerRow}>
           <TouchableOpacity
             style={styles.backButton}
@@ -370,59 +375,63 @@ const FavoritesScreen = ({ navigation }) => {
           </TouchableOpacity>
           <Text style={styles.headerTitle}>Yêu thích</Text>
         </View>
-      </View>
 
-      {/* Tab Selector */}
-      <View style={styles.tabContainer}>
-        <TouchableOpacity
-          style={[
-            styles.tabButton,
-            activeTab === "products" && styles.activeTabButton,
-          ]}
-          onPress={() => setActiveTab("products")}
-        >
-          <Ionicons
-            name="heart"
-            size={20}
-            color={activeTab === "products" ? COLORS.primary : "#999"}
-          />
-          <Text
+        {/* Tab Selector - Chia đôi theo chiều ngang */}
+        <View style={styles.tabContainer}>
+          <TouchableOpacity
             style={[
-              styles.tabButtonText,
-              activeTab === "products" && styles.activeTabButtonText,
+              styles.tabButton,
+              activeTab === "products" && styles.activeTabButton,
             ]}
+            onPress={() => setActiveTab("products")}
           >
-            Sản phẩm
-          </Text>
-          {activeTab === "products" && (
-            <View style={styles.activeTabIndicator} />
-          )}
-        </TouchableOpacity>
+            <View style={styles.tabContent}>
+              <Ionicons
+                name="heart"
+                size={20}
+                color={activeTab === "products" ? COLORS.primary : "#999"}
+              />
+              <Text
+                style={[
+                  styles.tabButtonText,
+                  activeTab === "products" && styles.activeTabButtonText,
+                ]}
+              >
+                Sản phẩm
+              </Text>
+            </View>
+            {activeTab === "products" && (
+              <View style={styles.activeTabIndicator} />
+            )}
+          </TouchableOpacity>
 
-        <TouchableOpacity
-          style={[
-            styles.tabButton,
-            activeTab === "sellers" && styles.activeTabButton,
-          ]}
-          onPress={() => setActiveTab("sellers")}
-        >
-          <Ionicons
-            name="people"
-            size={20}
-            color={activeTab === "sellers" ? COLORS.primary : "#999"}
-          />
-          <Text
+          <TouchableOpacity
             style={[
-              styles.tabButtonText,
-              activeTab === "sellers" && styles.activeTabButtonText,
+              styles.tabButton,
+              activeTab === "sellers" && styles.activeTabButton,
             ]}
+            onPress={() => setActiveTab("sellers")}
           >
-            Người bán
-          </Text>
-          {activeTab === "sellers" && (
-            <View style={styles.activeTabIndicator} />
-          )}
-        </TouchableOpacity>
+            <View style={styles.tabContent}>
+              <Ionicons
+                name="people"
+                size={20}
+                color={activeTab === "sellers" ? COLORS.primary : "#999"}
+              />
+              <Text
+                style={[
+                  styles.tabButtonText,
+                  activeTab === "sellers" && styles.activeTabButtonText,
+                ]}
+              >
+                Người bán
+              </Text>
+            </View>
+            {activeTab === "sellers" && (
+              <View style={styles.activeTabIndicator} />
+            )}
+          </TouchableOpacity>
+        </View>
       </View>
 
       {/* Content */}
@@ -456,7 +465,7 @@ const FavoritesScreen = ({ navigation }) => {
           ListEmptyComponent={renderEmptyState}
         />
       )}
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -465,17 +474,18 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#F8F8F8",
   },
-  header: {
+  headerContainer: {
     backgroundColor: "#FFF",
-    paddingHorizontal: 15,
-    marginTop: 40,
-    paddingVertical: 15,
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 44,
     borderBottomWidth: 1,
     borderBottomColor: "#F0F0F0",
+    ...SHADOW.medium,
   },
   headerRow: {
     flexDirection: "row",
     alignItems: "center",
+    paddingHorizontal: 15,
+    paddingVertical: 15,
   },
   backButton: {
     width: 40,
@@ -485,24 +495,26 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   headerTitle: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: "bold",
     color: "#333",
     marginLeft: 5,
   },
   tabContainer: {
     flexDirection: "row",
-    backgroundColor: "#FFF",
     paddingHorizontal: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: "#F0F0F0",
+    paddingBottom: 5,
   },
   tabButton: {
+    flex: 1,
+    alignItems: "center",
+    paddingVertical: 12,
+    position: "relative",
+  },
+  tabContent: {
     flexDirection: "row",
     alignItems: "center",
-    paddingVertical: 15,
-    marginRight: 20,
-    position: "relative",
+    justifyContent: "center",
   },
   activeTabButton: {
     borderBottomWidth: 0,
@@ -519,8 +531,8 @@ const styles = StyleSheet.create({
   activeTabIndicator: {
     position: "absolute",
     bottom: 0,
-    left: 0,
-    right: 0,
+    left: 15,
+    right: 15,
     height: 3,
     backgroundColor: COLORS.primary,
     borderRadius: 3,

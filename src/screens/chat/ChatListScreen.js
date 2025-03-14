@@ -9,6 +9,8 @@ import {
   TextInput,
   Animated,
   StyleSheet,
+  StatusBar,
+  Platform,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
@@ -307,16 +309,23 @@ export default function ChatListScreen({ navigation }) {
   );
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>Tin nhắn</Text>
-        <View style={styles.headerActions}>
-          <TouchableOpacity style={styles.headerButton}>
-            <Ionicons name="search" size={24} color="#1A1A1A" />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.headerButton}>
-            <Ionicons name="ellipsis-horizontal" size={24} color="#1A1A1A" />
-          </TouchableOpacity>
+    <View style={styles.container}>
+      <StatusBar
+        barStyle="dark-content"
+        backgroundColor="transparent"
+        translucent
+      />
+      <View style={styles.headerContainer}>
+        <View style={styles.header}>
+          <Text style={styles.headerTitle}>Tin nhắn</Text>
+          <View style={styles.headerActions}>
+            <TouchableOpacity style={styles.headerButton}>
+              <Ionicons name="search" size={24} color="#1A1A1A" />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.headerButton}>
+              <Ionicons name="ellipsis-horizontal" size={24} color="#1A1A1A" />
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
 
@@ -368,7 +377,7 @@ export default function ChatListScreen({ navigation }) {
           </View>
         }
       />
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -377,6 +386,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#F8F9FA",
   },
+  headerContainer: {
+    backgroundColor: "#FFFFFF",
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 44,
+    ...SHADOW.medium,
+  },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -384,10 +398,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     backgroundColor: COLORS.white,
-    ...SHADOW.small,
   },
   headerTitle: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: "700",
     color: "#1A1A1A",
   },
@@ -401,6 +414,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginLeft: 8,
+    backgroundColor: "#F1F3F5",
   },
   searchContainer: {
     padding: 12,
