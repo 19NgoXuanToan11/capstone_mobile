@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -11,21 +11,46 @@ import {
   Platform,
   Alert,
   Switch,
+  Animated,
+  Dimensions,
 } from "react-native";
 import {
   DrawerContentScrollView,
   DrawerItemList,
 } from "@react-navigation/drawer";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, MaterialCommunityIcons, Feather } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { BlurView } from "expo-blur";
 import { COLORS, SHADOW } from "../../../components/theme";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
+import * as Haptics from "expo-haptics";
+
+const { width } = Dimensions.get("window");
 
 export default function CustomDrawerContent(props) {
   const navigation = useNavigation();
   const [isDarkMode, setIsDarkMode] = useState(false);
+
+  // Animation values
+  const fadeAnim = useState(new Animated.Value(0))[0];
+  const slideAnim = useState(new Animated.Value(20))[0];
+
+  useEffect(() => {
+    // Entrance animation
+    Animated.parallel([
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 600,
+        useNativeDriver: true,
+      }),
+      Animated.timing(slideAnim, {
+        toValue: 0,
+        duration: 600,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  }, []);
 
   const userInfo = {
     name: "Nguyễn Văn A",
@@ -43,48 +68,51 @@ export default function CustomDrawerContent(props) {
 
   const menuItems = [
     {
-      icon: "home-outline",
+      icon: "home",
+      iconType: "feather",
       label: "Trang chủ",
       screen: "MainTabs",
       gradient: ["#4F8EF7", "#2D6CDF"],
     },
     {
       icon: "cube-outline",
+      iconType: "ionicons",
       label: "Sản phẩm của tôi",
       screen: "MyProducts",
       gradient: ["#4ECDC4", "#45B7D1"],
     },
     {
-      icon: "swap-horizontal-outline",
+      icon: "swap-horizontal",
+      iconType: "material",
       label: "Trao đổi của tôi",
       screen: "MyExchanges",
       gradient: ["#A18CD1", "#FBC2EB"],
     },
     {
-      icon: "notifications-outline",
+      icon: "bell",
+      iconType: "feather",
       label: "Thông báo",
       screen: "Notifications",
       gradient: ["#FF9A9E", "#FAD0C4"],
     },
     {
-      icon: "heart-outline",
+      icon: "heart",
+      iconType: "feather",
       label: "Yêu thích",
       screen: "Favorites",
       gradient: ["#FF9A9E", "#FECFEF"],
     },
     {
-      icon: "settings-outline",
+      icon: "settings",
+      iconType: "feather",
       label: "Cài đặt",
       screen: "Settings",
       gradient: ["#A1C4FD", "#C2E9FB"],
     },
   ];
 
-  const handleSupport = () => {
-    Linking.openURL("mailto:support@yourapp.com");
-  };
-
   const handleLogout = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     Alert.alert(
       "Đăng xuất",
       "Bạn có chắc chắn muốn đăng xuất?",
@@ -99,15 +127,7 @@ export default function CustomDrawerContent(props) {
             try {
               // Xóa token và thông tin người dùng từ AsyncStorage
               await AsyncStorage.multiRemove(["userToken", "userData"]);
-
-              // Thay vì sử dụng reset, hãy navigate đến màn hình đăng nhập
-              navigation.navigate("Login"); // Thay 'Login' bằng tên màn hình đăng nhập thực tế trong ứng dụng của bạn
-
-              // Hoặc nếu bạn muốn sử dụng reset, hãy đảm bảo tên màn hình chính xác
-              // navigation.reset({
-              //   index: 0,
-              //   routes: [{ name: 'Login' }], // Thay 'Login' bằng tên màn hình đăng nhập thực tế
-              // });
+              navigation.navigate("Login");
             } catch (error) {
               console.error("Lỗi khi đăng xuất:", error);
               Alert.alert(
@@ -128,6 +148,16 @@ export default function CustomDrawerContent(props) {
     // Thêm logic để thay đổi theme của ứng dụng ở đây
   };
 
+  const renderIcon = (item) => {
+    if (item.iconType === "feather") {
+      return <Feather name={item.icon} size={22} color="#FFF" />;
+    } else if (item.iconType === "material") {
+      return <MaterialCommunityIcons name={item.icon} size={22} color="#FFF" />;
+    } else {
+      return <Ionicons name={item.icon} size={22} color="#FFF" />;
+    }
+  };
+
   return (
     <View style={styles.container}>
       <StatusBar
@@ -138,7 +168,7 @@ export default function CustomDrawerContent(props) {
 
       {/* Header with user info */}
       <LinearGradient
-        colors={["#2C5364", "#203A43", "#0F2027"]}
+        colors={["#1A3A4A", "#0F2937", "#081C24"]}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
         style={styles.header}
@@ -174,7 +204,10 @@ export default function CustomDrawerContent(props) {
 
         <TouchableOpacity
           style={styles.editButton}
-          onPress={() => props.navigation.navigate("EditProfile")}
+          onPress={() => {
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+            props.navigation.navigate("EditProfile");
+          }}
         >
           <Text style={styles.editButtonText}>Chỉnh sửa</Text>
         </TouchableOpacity>
@@ -186,15 +219,16 @@ export default function CustomDrawerContent(props) {
               {index > 0 && <View style={styles.statDivider} />}
               <TouchableOpacity
                 style={styles.statItem}
-                onPress={() =>
+                onPress={() => {
+                  Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
                   props.navigation.navigate(
                     index === 0
                       ? "MyProducts"
                       : index === 1
                       ? "MyExchanges"
                       : "Reviews"
-                  )
-                }
+                  );
+                }}
               >
                 <Text style={styles.statNumber}>{stat.value}</Text>
                 <Text style={styles.statLabel}>{stat.label}</Text>
@@ -208,15 +242,26 @@ export default function CustomDrawerContent(props) {
       <DrawerContentScrollView
         {...props}
         contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
       >
-        <View style={styles.menuContainer}>
+        <Animated.View
+          style={[
+            styles.menuContainer,
+            {
+              opacity: fadeAnim,
+              transform: [{ translateX: slideAnim }],
+            },
+          ]}
+        >
           {menuItems.map((item, index) => (
             <TouchableOpacity
               key={index}
               style={styles.menuItem}
               onPress={() => {
+                Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
                 props.navigation.navigate(item.screen);
               }}
+              activeOpacity={0.7}
             >
               <LinearGradient
                 colors={item.gradient}
@@ -224,59 +269,34 @@ export default function CustomDrawerContent(props) {
                 end={{ x: 1, y: 1 }}
                 style={styles.menuIconContainer}
               >
-                <Ionicons name={item.icon} size={22} color={COLORS.white} />
+                {renderIcon(item)}
               </LinearGradient>
               <Text style={styles.menuItemText}>{item.label}</Text>
-              <Ionicons
-                name="chevron-forward"
-                size={18}
-                color={COLORS.inactive}
-              />
+              <Feather name="chevron-right" size={18} color="#9E9E9E" />
             </TouchableOpacity>
           ))}
-        </View>
+        </Animated.View>
 
-        {/* Footer Items */}
-        <View style={styles.footerMenu}>
+        <Animated.View
+          style={[
+            {
+              opacity: fadeAnim,
+              transform: [{ translateX: slideAnim }],
+            },
+          ]}
+        >
           <TouchableOpacity
-            style={styles.footerMenuItem}
-            onPress={handleSupport}
-          >
-            <View
-              style={[
-                styles.footerMenuIconContainer,
-                { backgroundColor: "#F0F0F0" },
-              ]}
-            >
-              <Ionicons
-                name="help-circle-outline"
-                size={22}
-                color={COLORS.primary}
-              />
-            </View>
-            <Text style={styles.footerMenuItemText}>Hỗ trợ</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[styles.footerMenuItem, styles.logoutMenuItem]}
+            style={styles.logoutMenuItem}
             onPress={handleLogout}
+            activeOpacity={0.7}
           >
-            <View
-              style={[
-                styles.footerMenuIconContainer,
-                { backgroundColor: "#FFF0F0" },
-              ]}
-            >
-              <Ionicons name="log-out-outline" size={22} color="#FF3B30" />
+            <View style={styles.logoutIconContainer}>
+              <Feather name="log-out" size={20} color="#FF3B30" />
             </View>
             <Text style={styles.logoutText}>Đăng xuất</Text>
           </TouchableOpacity>
-        </View>
+        </Animated.View>
       </DrawerContentScrollView>
-
-      <View style={styles.versionContainer}>
-        <Text style={styles.versionText}>Phiên bản 1.0.0</Text>
-      </View>
     </View>
   );
 }
@@ -284,12 +304,14 @@ export default function CustomDrawerContent(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.white,
+    backgroundColor: "#FFFFFF",
   },
   header: {
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight + 20 : 60,
-    paddingBottom: 15,
+    paddingBottom: 20,
     paddingHorizontal: 20,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
   },
   userInfoContainer: {
     flexDirection: "row",
@@ -309,14 +331,14 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 0,
     right: 0,
-    backgroundColor: COLORS.primary,
+    backgroundColor: "#1976D2",
     borderRadius: 10,
     width: 20,
     height: 20,
     justifyContent: "center",
     alignItems: "center",
     borderWidth: 2,
-    borderColor: COLORS.white,
+    borderColor: "#FFFFFF",
   },
   userInfo: {
     marginLeft: 15,
@@ -327,8 +349,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   userName: {
-    color: COLORS.white,
-    fontSize: 20,
+    color: "#FFFFFF",
+    fontSize: 22,
     fontWeight: "bold",
   },
   userEmail: {
@@ -341,48 +363,39 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   levelBadge: {
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderRadius: 12,
+    paddingHorizontal: 12,
+    paddingVertical: 5,
+    borderRadius: 15,
     marginRight: 10,
   },
   levelText: {
-    color: COLORS.white,
+    color: "#FFFFFF",
     fontSize: 12,
     fontWeight: "bold",
   },
-  pointsContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "rgba(255, 255, 255, 0.2)",
-    borderRadius: 12,
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-  },
-  pointsText: {
-    color: COLORS.white,
-    fontSize: 12,
-    marginLeft: 4,
-  },
   editButton: {
-    backgroundColor: "rgba(255, 255, 255, 0.2)",
+    backgroundColor: "rgba(255, 255, 255, 0.15)",
     borderRadius: 20,
     paddingHorizontal: 15,
     paddingVertical: 6,
     alignSelf: "flex-start",
-    marginTop: 10,
-    marginBottom: 15,
+    marginTop: 15,
+    marginBottom: 20,
+    borderWidth: 1,
+    borderColor: "rgba(255, 255, 255, 0.2)",
   },
   editButtonText: {
-    color: COLORS.white,
+    color: "#FFFFFF",
     fontSize: 14,
     fontWeight: "500",
   },
   statsContainer: {
     flexDirection: "row",
     backgroundColor: "rgba(255, 255, 255, 0.1)",
-    borderRadius: 12,
-    padding: 10,
+    borderRadius: 15,
+    padding: 15,
+    borderWidth: 1,
+    borderColor: "rgba(255, 255, 255, 0.1)",
   },
   statItem: {
     flex: 1,
@@ -390,14 +403,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   statNumber: {
-    color: COLORS.white,
-    fontSize: 18,
+    color: "#FFFFFF",
+    fontSize: 20,
     fontWeight: "bold",
   },
   statLabel: {
     color: "rgba(255, 255, 255, 0.8)",
-    fontSize: 12,
-    marginTop: 4,
+    fontSize: 13,
+    marginTop: 5,
   },
   statDivider: {
     width: 1,
@@ -405,23 +418,22 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(255, 255, 255, 0.2)",
   },
   scrollContent: {
-    paddingTop: 0,
+    paddingTop: 10,
   },
   menuContainer: {
-    paddingTop: 15,
     paddingHorizontal: 15,
   },
   menuItem: {
     flexDirection: "row",
     alignItems: "center",
-    paddingVertical: 12,
+    paddingVertical: 15,
     borderBottomWidth: 1,
     borderBottomColor: "rgba(0, 0, 0, 0.05)",
   },
   menuIconContainer: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: 45,
+    height: 45,
+    borderRadius: 12,
     justifyContent: "center",
     alignItems: "center",
     marginRight: 15,
@@ -430,49 +442,30 @@ const styles = StyleSheet.create({
   menuItemText: {
     flex: 1,
     fontSize: 16,
-    color: COLORS.text,
-    fontWeight: "500",
-  },
-  footerMenu: {
-    marginTop: 20,
-    paddingHorizontal: 15,
-    borderTopWidth: 1,
-    borderTopColor: "rgba(0, 0, 0, 0.05)",
-    paddingTop: 15,
-  },
-  footerMenuItem: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingVertical: 12,
-  },
-  footerMenuIconContainer: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    justifyContent: "center",
-    alignItems: "center",
-    marginRight: 15,
-  },
-  footerMenuItemText: {
-    flex: 1,
-    fontSize: 16,
-    color: COLORS.text,
+    color: "#333333",
     fontWeight: "500",
   },
   logoutMenuItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 15,
+    paddingHorizontal: 15,
     marginTop: 10,
+    marginBottom: 20,
+  },
+  logoutIconContainer: {
+    width: 45,
+    height: 45,
+    borderRadius: 12,
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: 15,
+    backgroundColor: "#FFF0F0",
+    ...SHADOW.small,
   },
   logoutText: {
     fontSize: 16,
     color: "#FF3B30",
     fontWeight: "500",
-  },
-  versionContainer: {
-    padding: 15,
-    alignItems: "center",
-  },
-  versionText: {
-    fontSize: 12,
-    color: COLORS.inactive,
   },
 });
