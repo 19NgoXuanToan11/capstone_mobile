@@ -111,7 +111,7 @@ const Carousel = () => {
 
 const styles = {
   container: {
-    height: 200,
+    height: 250,
     position: "relative",
   },
   scrollView: {
