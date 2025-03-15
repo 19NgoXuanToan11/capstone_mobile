@@ -13,16 +13,34 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "Ứng dụng cần quyền truy cập vào thư viện ảnh để thay đổi ảnh đại diện.",
+        "NSCameraUsageDescription": "Ứng dụng cần quyền truy cập vào máy ảnh để chụp ảnh đại diện."
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE",
+        "CAMERA"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Ứng dụng cần quyền truy cập vào thư viện ảnh để thay đổi ảnh đại diện.",
+          "cameraPermission": "Ứng dụng cần quyền truy cập vào máy ảnh để chụp ảnh đại diện."
+        }
+      ]
+    ]
   }
 }

@@ -17,6 +17,7 @@ import AllProductsScreen from "../../../screens/product/AllProductsScreen";
 import CreateExchangeScreen from "../../../screens/exchange/CreateExchangeScreen";
 import ExchangeScreen from "../../../screens/exchange/ExchangeScreen";
 import PostProductScreen from "../../../screens/product/PostProductScreen";
+import EditProfileScreen from "../../../screens/profile/EditProfileScreen";
 
 const Drawer = createDrawerNavigator();
 
@@ -27,8 +28,14 @@ export default function AppDrawer() {
       screenOptions={{
         headerShown: false,
         drawerStyle: {
-          width: "75%",
+          backgroundColor: "#0A1929",
+          width: 280,
         },
+        drawerLabelStyle: {
+          color: "#FFFFFF",
+        },
+        drawerActiveTintColor: "#1976D2",
+        drawerInactiveTintColor: "#FFFFFF",
       }}
     >
       <Drawer.Screen name="MainTabs" component={MainNavigator} />
@@ -50,6 +57,11 @@ export default function AppDrawer() {
       <Drawer.Screen name="CreateExchange" component={CreateExchangeScreen} />
       <Drawer.Screen name="ExchangeMain" component={ExchangeScreen} />
       <Drawer.Screen name="PostProduct" component={PostProductScreen} />
+      <Drawer.Screen
+        name="EditProfile"
+        component={EditProfileScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
     </Drawer.Navigator>
   );
 }

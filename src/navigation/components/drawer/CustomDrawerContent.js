@@ -25,12 +25,14 @@ import { COLORS, SHADOW } from "../../../components/theme";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import * as Haptics from "expo-haptics";
+import { useUser } from "../../../context/UserContext";
 
 const { width } = Dimensions.get("window");
 
 export default function CustomDrawerContent(props) {
   const navigation = useNavigation();
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const { userData } = useUser();
 
   // Animation values
   const fadeAnim = useState(new Animated.Value(0))[0];
@@ -51,14 +53,6 @@ export default function CustomDrawerContent(props) {
       }),
     ]).start();
   }, []);
-
-  const userInfo = {
-    name: "Nguyễn Văn A",
-    email: "nguyenvana@example.com",
-    avatar: "https://randomuser.me/api/portraits/men/32.jpg",
-    level: "Thành viên Vàng",
-    verified: true,
-  };
 
   const stats = [
     { label: "Sản phẩm", value: 12 },
@@ -168,8 +162,15 @@ export default function CustomDrawerContent(props) {
       >
         <View style={styles.userInfoContainer}>
           <View style={styles.avatarContainer}>
-            <Image source={{ uri: userInfo.avatar }} style={styles.avatar} />
-            {userInfo.verified && (
+            <Image
+              source={
+                userData.profileImage
+                  ? { uri: userData.profileImage }
+                  : require("../../../../assets/profile/avatar.png")
+              }
+              style={styles.avatar}
+            />
+            {userData.verified && (
               <View style={styles.verifiedBadge}>
                 <Ionicons name="checkmark" size={12} color="#FFF" />
               </View>
@@ -178,20 +179,13 @@ export default function CustomDrawerContent(props) {
 
           <View style={styles.userInfo}>
             <View style={styles.nameContainer}>
-              <Text style={styles.userName}>{userInfo.name}</Text>
+              <Text style={styles.userName}>
+                {userData.fullName || "Người dùng"}
+              </Text>
             </View>
-            <Text style={styles.userEmail}>{userInfo.email}</Text>
-
-            <View style={styles.levelContainer}>
-              <LinearGradient
-                colors={["#FFD700", "#FFA500"]}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
-                style={styles.levelBadge}
-              >
-                <Text style={styles.levelText}>{userInfo.level}</Text>
-              </LinearGradient>
-            </View>
+            <Text style={styles.userEmail}>
+              {userData.email || "Chưa có email"}
+            </Text>
           </View>
         </View>
 

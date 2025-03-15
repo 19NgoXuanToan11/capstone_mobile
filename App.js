@@ -3,6 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { UserProvider } from "./src/context/UserContext";
 
 import WelcomeScreen from "./src/screens/welcome/WelcomeScreen";
 import OnBoardingScreen from "./src/screens/onboarding/OnBoardingScreen";
@@ -57,38 +58,40 @@ export default function App() {
   );
 
   return (
-    <AuthContext.Provider value={authContext}>
-      <SafeAreaProvider>
-        <NavigationContainer>
-          <Stack.Navigator screenOptions={{ headerShown: false }}>
-            {!hasSeenOnboarding ? (
-              <>
-                <Stack.Screen name="Welcome" component={WelcomeScreen} />
-                <Stack.Screen
-                  name="OnBoarding"
-                  component={OnBoardingScreen}
-                  initialParams={{ setHasSeenOnboarding }}
-                />
-              </>
-            ) : (
-              <>
-                <Stack.Screen
-                  name="Main"
-                  component={AppDrawer}
-                  initialParams={{ isLoggedIn }}
-                />
-                <Stack.Screen name="Login" component={LoginScreen} />
-                <Stack.Screen name="Register" component={RegisterScreen} />
-                <Stack.Screen
-                  name="ForgotPassword"
-                  component={ForgotPasswordScreen}
-                />
-              </>
-            )}
-          </Stack.Navigator>
-        </NavigationContainer>
-      </SafeAreaProvider>
-    </AuthContext.Provider>
+    <UserProvider>
+      <AuthContext.Provider value={authContext}>
+        <SafeAreaProvider>
+          <NavigationContainer>
+            <Stack.Navigator screenOptions={{ headerShown: false }}>
+              {!hasSeenOnboarding ? (
+                <>
+                  <Stack.Screen name="Welcome" component={WelcomeScreen} />
+                  <Stack.Screen
+                    name="OnBoarding"
+                    component={OnBoardingScreen}
+                    initialParams={{ setHasSeenOnboarding }}
+                  />
+                </>
+              ) : (
+                <>
+                  <Stack.Screen
+                    name="Main"
+                    component={AppDrawer}
+                    initialParams={{ isLoggedIn }}
+                  />
+                  <Stack.Screen name="Login" component={LoginScreen} />
+                  <Stack.Screen name="Register" component={RegisterScreen} />
+                  <Stack.Screen
+                    name="ForgotPassword"
+                    component={ForgotPasswordScreen}
+                  />
+                </>
+              )}
+            </Stack.Navigator>
+          </NavigationContainer>
+        </SafeAreaProvider>
+      </AuthContext.Provider>
+    </UserProvider>
   );
 }
 

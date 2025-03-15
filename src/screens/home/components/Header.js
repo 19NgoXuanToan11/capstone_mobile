@@ -15,11 +15,13 @@ import { LinearGradient } from "expo-linear-gradient";
 import { BlurView } from "expo-blur";
 import { useNavigation, DrawerActions } from "@react-navigation/native";
 import { COLORS, SPACING, SHADOW } from "../../../components/theme";
+import { useUser } from "../../../context/UserContext";
 
 export default function Header() {
   const [searchFocused, setSearchFocused] = useState(false);
   const [weatherExpanded, setWeatherExpanded] = useState(false);
   const navigation = useNavigation();
+  const { userData } = useUser();
 
   return (
     <View style={styles.outerContainer}>
@@ -62,11 +64,16 @@ export default function Header() {
           </TouchableOpacity>
 
           <View style={styles.rightButtons}>
-            <TouchableOpacity style={styles.avatarButton}>
+            <TouchableOpacity
+              style={styles.avatarButton}
+              onPress={() => navigation.navigate("EditProfile")}
+            >
               <Image
-                source={{
-                  uri: "https://randomuser.me/api/portraits/men/32.jpg",
-                }}
+                source={
+                  userData.profileImage
+                    ? { uri: userData.profileImage }
+                    : require("../../../../assets/profile/avatar.png")
+                }
                 style={styles.avatar}
               />
               <View style={styles.statusDot} />
