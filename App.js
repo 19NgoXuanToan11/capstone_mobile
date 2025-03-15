@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+import WelcomeScreen from "./src/screens/welcome/WelcomeScreen";
 import OnBoardingScreen from "./src/screens/onboarding/OnBoardingScreen";
 import AppDrawer from "./src/navigation/components/drawer/AppDrawer";
 import LoginScreen from "./src/screens/auth/LoginScreen";
@@ -61,11 +62,14 @@ export default function App() {
         <NavigationContainer>
           <Stack.Navigator screenOptions={{ headerShown: false }}>
             {!hasSeenOnboarding ? (
-              <Stack.Screen
-                name="OnBoarding"
-                component={OnBoardingScreen}
-                initialParams={{ setHasSeenOnboarding }}
-              />
+              <>
+                <Stack.Screen name="Welcome" component={WelcomeScreen} />
+                <Stack.Screen
+                  name="OnBoarding"
+                  component={OnBoardingScreen}
+                  initialParams={{ setHasSeenOnboarding }}
+                />
+              </>
             ) : (
               <>
                 <Stack.Screen
