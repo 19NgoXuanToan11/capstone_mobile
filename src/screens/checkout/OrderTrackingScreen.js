@@ -7,10 +7,15 @@ import {
   TouchableOpacity,
   ScrollView,
   Image,
+  Dimensions,
+  StatusBar,
+  Platform,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { COLORS, SHADOW } from "../../components/theme";
+
+const { width, height } = Dimensions.get("window");
 
 const OrderTrackingScreen = ({ route, navigation }) => {
   const { orderId, product, totalPrice, deliveryAddress, paymentMethod } =
@@ -87,7 +92,13 @@ const OrderTrackingScreen = ({ route, navigation }) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={[styles.container, { width, height }]}>
+      <StatusBar
+        translucent
+        backgroundColor="transparent"
+        barStyle="dark-content"
+      />
+
       <View style={styles.header}>
         <TouchableOpacity
           style={styles.backButton}
@@ -99,7 +110,11 @@ const OrderTrackingScreen = ({ route, navigation }) => {
         <View style={{ width: 24 }} />
       </View>
 
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={styles.scrollView}
+        contentContainerStyle={styles.scrollContent}
+      >
         <View style={styles.orderIdContainer}>
           <View style={styles.orderIdContent}>
             <Text style={styles.orderIdLabel}>Mã đơn hàng:</Text>
@@ -189,7 +204,9 @@ const OrderTrackingScreen = ({ route, navigation }) => {
           <View style={styles.addressCard}>
             <View style={styles.addressRow}>
               <Ionicons name="person-outline" size={20} color="#666" />
-              <Text style={styles.addressText}>{deliveryAddress?.fullName}</Text>
+              <Text style={styles.addressText}>
+                {deliveryAddress?.fullName}
+              </Text>
             </View>
             <View style={styles.addressRow}>
               <Ionicons name="call-outline" size={20} color="#666" />
@@ -222,7 +239,9 @@ const OrderTrackingScreen = ({ route, navigation }) => {
               <View style={styles.paymentStatusContainer}>
                 <View style={styles.paymentStatusDot} />
                 <Text style={styles.paymentStatus}>
-                  {paymentMethod === "cod" ? "Chưa thanh toán" : "Đã thanh toán"}
+                  {paymentMethod === "cod"
+                    ? "Chưa thanh toán"
+                    : "Đã thanh toán"}
                 </Text>
               </View>
             </View>
@@ -234,7 +253,11 @@ const OrderTrackingScreen = ({ route, navigation }) => {
             style={styles.contactButton}
             onPress={handleContactSeller}
           >
-            <Ionicons name="chatbubble-outline" size={20} color={COLORS.primary} />
+            <Ionicons
+              name="chatbubble-outline"
+              size={20}
+              color={COLORS.primary}
+            />
             <Text style={styles.contactButtonText}>Liên hệ người bán</Text>
           </TouchableOpacity>
 
@@ -251,7 +274,7 @@ const OrderTrackingScreen = ({ route, navigation }) => {
 
         <View style={{ height: 30 }} />
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -260,16 +283,25 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#F5F5F5",
   },
+  scrollView: {
+    flex: 1,
+  },
+  scrollContent: {
+    paddingHorizontal: 15,
+    paddingBottom: 20,
+  },
   header: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     paddingHorizontal: 15,
-    paddingVertical: 10,
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight || 30 : 10,
+    paddingBottom: 10,
     backgroundColor: "#FFF",
     ...SHADOW.small,
   },
   backButton: {
+    marginTop: 50,
     width: 40,
     height: 40,
     alignItems: "center",
@@ -277,6 +309,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   headerTitle: {
+    marginTop: 50,
     fontSize: 18,
     fontWeight: "bold",
     color: "#333",

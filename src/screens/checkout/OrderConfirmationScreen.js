@@ -6,10 +6,14 @@ import {
   Image,
   TouchableOpacity,
   ScrollView,
+  Dimensions,
+  StatusBar,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { COLORS, SHADOW } from "../../components/theme";
+
+const { width, height } = Dimensions.get("window");
 
 const OrderConfirmationScreen = ({ route, navigation }) => {
   const { orderId, product, totalPrice, deliveryAddress, paymentMethod } =
@@ -34,7 +38,13 @@ const OrderConfirmationScreen = ({ route, navigation }) => {
 
   const handleTrackOrder = () => {
     // Điều hướng đến màn hình theo dõi đơn hàng
-    navigation.navigate("OrderTracking", { orderId, product, totalPrice, deliveryAddress, paymentMethod });
+    navigation.navigate("OrderTracking", {
+      orderId,
+      product,
+      totalPrice,
+      deliveryAddress,
+      paymentMethod,
+    });
   };
 
   const handleContinueShopping = () => {
@@ -43,11 +53,25 @@ const OrderConfirmationScreen = ({ route, navigation }) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView showsVerticalScrollIndicator={false}>
+    <View style={[styles.container, { width, height }]}>
+      <StatusBar
+        translucent
+        backgroundColor="transparent"
+        barStyle="dark-content"
+      />
+
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={styles.scrollView}
+        contentContainerStyle={styles.scrollContent}
+      >
         <View style={styles.successContainer}>
           <View style={styles.successIconContainer}>
-            <Ionicons name="checkmark-circle" size={100} color={COLORS.primary} />
+            <Ionicons
+              name="checkmark-circle"
+              size={100}
+              color={COLORS.primary}
+            />
           </View>
           <Text style={styles.successTitle}>Đặt hàng thành công!</Text>
           <Text style={styles.successMessage}>
@@ -112,7 +136,9 @@ const OrderConfirmationScreen = ({ route, navigation }) => {
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Tổng thanh toán</Text>
             <View style={styles.totalCard}>
-              <Text style={styles.totalAmount}>{formatCurrency(totalPrice)}</Text>
+              <Text style={styles.totalAmount}>
+                {formatCurrency(totalPrice)}
+              </Text>
             </View>
           </View>
 
@@ -143,7 +169,7 @@ const OrderConfirmationScreen = ({ route, navigation }) => {
           </TouchableOpacity>
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -152,6 +178,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#F8F8F8",
   },
+  scrollView: {
+    flex: 1,
+  },
+  scrollContent: {
+    paddingBottom: 30,
+  },
   successContainer: {
     alignItems: "center",
     padding: 20,
@@ -159,6 +191,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   successIconContainer: {
+    marginTop: 40,
     width: 120,
     height: 120,
     alignItems: "center",
@@ -346,4 +379,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default OrderConfirmationScreen; 
+export default OrderConfirmationScreen;

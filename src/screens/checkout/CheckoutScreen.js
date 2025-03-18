@@ -10,12 +10,13 @@ import {
   Alert,
   ActivityIndicator,
   Dimensions,
+  StatusBar,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { COLORS, SHADOW } from "../../components/theme";
 
-const { width } = Dimensions.get("window");
+const { width, height } = Dimensions.get("window");
 
 const CheckoutScreen = ({ route, navigation }) => {
   const { product } = route.params;
@@ -65,7 +66,13 @@ const CheckoutScreen = ({ route, navigation }) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={[styles.container, { width, height }]}>
+      <StatusBar
+        translucent
+        backgroundColor="transparent"
+        barStyle="light-content"
+      />
+
       {/* Modern Header with Gradient */}
       <View style={styles.header}>
         <TouchableOpacity
@@ -81,6 +88,7 @@ const CheckoutScreen = ({ route, navigation }) => {
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollContent}
+        style={styles.scrollView}
       >
         {/* Progress Indicator */}
         <View style={styles.progressContainer}>
@@ -395,7 +403,7 @@ const CheckoutScreen = ({ route, navigation }) => {
           )}
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -403,6 +411,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#F8F9FA",
+  },
+  scrollView: {
+    flex: 1,
   },
   scrollContent: {
     paddingBottom: 20,
@@ -419,6 +430,7 @@ const styles = StyleSheet.create({
     ...SHADOW.medium,
   },
   backButton: {
+    marginTop: 40,
     width: 40,
     height: 40,
     borderRadius: 20,
@@ -427,6 +439,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(255, 255, 255, 0.2)",
   },
   headerTitle: {
+    marginTop: 40,
     fontSize: 18,
     fontWeight: "bold",
     color: "#FFF",
